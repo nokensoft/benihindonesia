@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benih Indonesia - Better Literacy. Brighter Futures.</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased flex flex-col min-h-screen" x-data="{ currentTab: 'home', mobileMenu: false }">
+
+    <!-- Navbar & Header -->
+    <header class="sticky top-0 z-50 bg-stone-50/90 backdrop-blur-md border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer" @click="currentTab = 'home'">
+                    <span class="text-2xl font-bold tracking-tight text-brand-800 flex items-center gap-2 uppercase">
+                        <img src="./logo.png" alt="Logo Benih Indonesia" class="h-12 w-auto object-contain rounded-full">
+                        Benih Indonesia
+                    </span>
+                </div>
+
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <button @click="currentTab = 'home'" :class="currentTab === 'home' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">Home</button>
+                    <button @click="currentTab = 'about'" :class="currentTab === 'about' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">About Us</button>
+                    <button @click="currentTab = 'programmes'" :class="currentTab === 'programmes' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">Programmes</button>
+                    <button @click="currentTab = 'impact'" :class="currentTab === 'impact' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">Impact</button>
+                    <button @click="currentTab = 'stories'" :class="currentTab === 'stories' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">Stories</button>
+                    <button @click="currentTab = 'resources'" :class="currentTab === 'resources' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">Resources</button>
+                    <button @click="currentTab = 'contact'" :class="currentTab === 'contact' ? 'text-brand-700 font-semibold border-b-2 border-brand-700' : 'text-stone-600 hover:text-stone-900'" class="py-2 text-sm transition-colors">Contact</button>
+                    <button @click="currentTab = 'get-involved'" :class="currentTab === 'get-involved' ? 'bg-brand-700 text-white' : 'bg-brand-800 text-white hover:bg-brand-700'" class="px-4 py-2 text-sm rounded-md transition-colors">Get Involved</button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenu = !mobileMenu" class="text-stone-700 hover:text-stone-900 p-2">
+                        <i class="fa-solid" :class="mobileMenu ? 'fa-xmark' : 'fa-bars'"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div x-show="mobileMenu" x-cloak class="md:hidden border-b border-stone-200 bg-stone-50 px-4 pt-2 pb-4 space-y-2">
+            <button @click="currentTab = 'home'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">Home</button>
+            <button @click="currentTab = 'about'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">About Us</button>
+            <button @click="currentTab = 'programmes'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">Programmes</button>
+            <button @click="currentTab = 'impact'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">Impact</button>
+            <button @click="currentTab = 'stories'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">Stories</button>
+            <button @click="currentTab = 'resources'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">Resources</button>
+            <button @click="currentTab = 'contact'; mobileMenu = false" class="block w-full text-left py-2 text-stone-700 hover:text-stone-900 text-sm">Contact</button>
+            <button @click="currentTab = 'get-involved'; mobileMenu = false" class="block w-full text-left py-2 bg-brand-800 text-white px-3 rounded-md text-sm">Get Involved</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <!-- HOME SECTION -->
+        <section x-show="currentTab === 'home'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            <div class="space-y-12">
+                <div class="space-y-6">
+                    <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-stone-900">Better Literacy. Brighter Futures.</h1>
+                    <h2 class="text-2xl md:text-3xl font-medium text-stone-600">Teach the successors. Grow their potential.</h2>
+                    <p class="text-lg leading-relaxed text-stone-700">
+                        Benih Indonesia merupakan organisasi nirlaba yang berfokus pada peningkatan kemampuan literasi dan numerasi dasar anak-anak di tanah Papua. Melalui pendekatan berbasis komunitas dan metode pembelajaran yang terstruktur, Benih Indonesia berkomitmen untuk mendampingi generasi muda Papua dalam membangun fondasi pendidikan yang kokoh demi masa depan yang lebih inklusif dan berdaya.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button @click="currentTab = 'programmes'" class="px-6 py-3 bg-brand-800 text-white font-medium rounded-md hover:bg-brand-700 transition-colors">Our Programmes</button>
+                        <button @click="currentTab = 'about'" class="px-6 py-3 border border-stone-300 text-stone-800 font-medium rounded-md hover:bg-stone-100 transition-colors">Learn More</button>
+                    </div>
+                </div>
+
+                <div class="pt-12 border-t border-stone-200">
+                    <h2 class="text-xl font-bold text-stone-900 mb-6">Operational Regencies</h2>
+                    <p class="text-stone-700 mb-6">Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 pt-4">
+                        <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                            <h3 class="text-lg font-bold text-stone-900 mb-2">Better Learning</h3>
+                            <p class="text-stone-600">Mengimplementasikan sistem pembelajaran kontekstual yang disesuaikan dengan tingkat kemampuan anak-anak di Papua.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                            <h3 class="text-lg font-bold text-stone-900 mb-2">Stronger Communities</h3>
+                            <p class="text-stone-600">Mendorong keterlibatan aktif pemuda lokal, pengajar, dan masyarakat sekitar untuk menciptakan ekosistem pendidikan berkelanjutan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT US SECTION -->
+        <section x-show="currentTab === 'about'" x-data="{ aboutSubTab: 'org' }" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">About Us</h1>
+
+            <!-- Subtab Navigation -->
+            <div class="flex flex-wrap gap-2 border-b border-stone-200 mb-8">
+                <button @click="aboutSubTab = 'org'" :class="aboutSubTab === 'org' ? 'border-b-2 border-brand-700 text-brand-700 font-medium' : 'text-stone-600'" class="pb-3 px-3 text-sm">Our Organization</button>
+                <button @click="aboutSubTab = 'team'" :class="aboutSubTab === 'team' ? 'border-b-2 border-brand-700 text-brand-700 font-medium' : 'text-stone-600'" class="pb-3 px-3 text-sm">Our Team</button>
+                <button @click="aboutSubTab = 'vision'" :class="aboutSubTab === 'vision' ? 'border-b-2 border-brand-700 text-brand-700 font-medium' : 'text-stone-600'" class="pb-3 px-3 text-sm">Our Mission & Vision</button>
+                <button @click="aboutSubTab = 'journey'" :class="aboutSubTab === 'journey' ? 'border-b-2 border-brand-700 text-brand-700 font-medium' : 'text-stone-600'" class="pb-3 px-3 text-sm">Our Journey</button>
+                <button @click="aboutSubTab = 'partner'" :class="aboutSubTab === 'partner' ? 'border-b-2 border-brand-700 text-brand-700 font-medium' : 'text-stone-600'" class="pb-3 px-3 text-sm">Our Partner</button>
+            </div>
+
+            <!-- Subtab Contents -->
+            <div x-show="aboutSubTab === 'org'" class="space-y-4">
+                <h2 class="text-2xl font-bold text-stone-900">Our Organization</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Benih Indonesia berdiri sebagai bentuk kepedulian mendalam terhadap tantangan literasi dasar di Papua. Organisasi ini berfokus pada penyediaan akses dan metode belajar literasi dan numerasi yang inklusif, relevan, serta berkelanjutan bagi anak-anak di daerah rural maupun perkotaan.
+                </p>
+            </div>
+
+            <div x-show="aboutSubTab === 'team'" class="space-y-6">
+                <h2 class="text-2xl font-bold text-stone-900">Our Team</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-xl font-bold text-stone-900">Silvia Wambukomo</h3>
+                        <p class="text-brand-700 font-medium mb-3">Co-founder</p>
+                        <p class="text-stone-600">Mengawasi dan memimpin strategi pengembangan program literasi serta integrasi kurikulum berbasis komunitas lokal.</p>
+                    </div>
+                    <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-xl font-bold text-stone-900">Frederick Martinus</h3>
+                        <p class="text-brand-700 font-medium mb-3">Co-founder</p>
+                        <p class="text-stone-600">Mengelola kemitraan strategis, operasional lapangan, dan pengembangan jaringan sukarelawan di berbagai wilayah operasional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="aboutSubTab === 'vision'" class="space-y-6">
+                <h2 class="text-2xl font-bold text-stone-900">Our Mission and Vision</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Vision</h3>
+                        <p class="text-stone-700">Terwujudnya anak-anak Papua yang mahir berliterasi dan bernumerasi sebagai landasan utama untuk meraih potensi maksimal mereka.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Mission</h3>
+                        <p class="text-stone-700">Menyediakan program literasi dan numerasi yang efektif, melatih pendidik lokal, serta menggalang kolaborasi komunitas demi terciptanya lingkungan belajar yang berkelanjutan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="aboutSubTab === 'journey'" class="space-y-4">
+                <h2 class="text-2xl font-bold text-stone-900">Our Journey: Timeline 2026 - 2030</h2>
+                <div class="space-y-4 border-l-2 border-stone-200 pl-6 ml-2">
+                    <div>
+                        <span class="text-sm font-bold text-brand-700">2026</span>
+                        <p class="text-stone-700">Penguatan metode TaRL dan perluasan cakupan pendampingan di Jayapura Regency dan Jayapura City.</p>
+                    </div>
+                    <div>
+                        <span class="text-sm font-bold text-brand-700">2028</span>
+                        <p class="text-stone-700">Replikasi program di seluruh wilayah operasional target (Biak Numfor, Sarmi, Yapen, Nabire, Merauke, Fak Fak).</p>
+                    </div>
+                    <div>
+                        <span class="text-sm font-bold text-brand-700">2030</span>
+                        <p class="text-stone-700">Pencapaian kemandirian komunitas lokal dalam mengelola sentra-sentra belajar literasi secara mandiri.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="aboutSubTab === 'partner'" class="space-y-4">
+                <h2 class="text-2xl font-bold text-stone-900">Our Partner</h2>
+                <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">International University of Papua</h3>
+                    <p class="text-stone-700">Mitra strategis dalam riset pendidikan, penyediaan tenaga akademik, serta pengembangan kepemimpinan pemuda di bidang pendidikan literasi.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROGRAMMES SECTION -->
+        <section x-show="currentTab === 'programmes'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">Programmes</h1>
+            
+            <div class="space-y-12">
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-900 mb-4">Featured Programmes</h2>
+                    <p class="text-stone-700 leading-relaxed mb-6">
+                        Penerapan pembelajaran berbasis tingkat kemampuan anak melalui pendekatan Teaching at the Right Level (TaRL), yang secara langsung mendukung pencapaian UN Sustainable Development Goals (SDG 1: No Poverty, SDG 4: Quality Education, dan SDG 10: Reduced Inequalities).
+                    </p>
+                </div>
+
+                <div class="border-t border-stone-200 pt-8">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-4">Supporting Programmes</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        Program pendukung pelatihan guru lokal, penyediaan sudut baca masyarakat, serta workshop numerasi dasar berbasis aktivitas sehari-hari. (Placeholder update untuk inisiatif mendalam mendatang).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- IMPACT SECTION -->
+        <section x-show="currentTab === 'impact'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">Impact</h1>
+
+            <div class="space-y-12">
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-900 mb-6">3Cs Framework</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                            <h3 class="text-lg font-bold text-brand-800 mb-2">Clarity</h3>
+                            <p class="text-stone-600">Memberikan pemahaman yang jelas mengenai tingkat kemampuan baca dan berhitung awal siswa.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                            <h3 class="text-lg font-bold text-brand-800 mb-2">Confidence</h3>
+                            <p class="text-stone-600">Membangun rasa percaya diri anak-anak untuk mengekspresikan diri dan belajar tanpa rasa takut.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                            <h3 class="text-lg font-bold text-brand-800 mb-2">Consistency</h3>
+                            <p class="text-stone-600">Menjaga konsistensi pendampingan melalui kelas-kelas belajar rutin berbasis komunitas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-stone-200 pt-8">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-6">Testimonies & Beneficiaries in Numbers</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mb-8 text-center">
+                        <div class="p-6 bg-stone-100 rounded-lg">
+                            <span class="block text-3xl font-bold text-brand-800">Volunteer Teachers</span>
+                            <p class="text-stone-600 mt-2">Relawan pengajar lokal terpilih dan terlatih.</p>
+                        </div>
+                        <div class="p-6 bg-stone-100 rounded-lg">
+                            <span class="block text-3xl font-bold text-brand-800">Learners</span>
+                            <p class="text-stone-600 mt-2">Anak-anak penerima manfaat program literasi & numerasi.</p>
+                        </div>
+                        <div class="p-6 bg-stone-100 rounded-lg">
+                            <span class="block text-3xl font-bold text-brand-800">Society</span>
+                            <p class="text-stone-600 mt-2">Komunitas dan keluarga yang merasakan dampak positif.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORIES SECTION -->
+        <section x-show="currentTab === 'stories'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">Stories</h1>
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-stone-900">About Papua & Culture, Language, and Food</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Kisah-kisah pembelajaran di Benih Indonesia berakar kuat pada kearifan lokal Papua. Keanekaragaman bahasa daerah, kekayaan kuliner tradisional seperti papeda dan umbi-umbian, serta kehangatan budaya kemasyarakatan menjadi bagian integral dalam penyusunan konteks materi pembelajaran anak-anak.
+                </p>
+            </div>
+        </section>
+
+        <!-- RESOURCES SECTION -->
+        <section x-show="currentTab === 'resources'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">Resources</h1>
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-stone-900">Our Teaching Methodology (Teaching at the Right Level / TaRL)</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Pendekatan Teaching at the Right Level (TaRL) membagi kelompok belajar berdasarkan tingkat kemampuan aktual anak (membaca huruf, kata, paragraf, atau cerita) bukan berdasarkan tingkatan kelas formalnya. Hal ini memungkinkan setiap anak belajar sesuai kecepatannya masing-masing hingga mencapai ketangkasan dasar.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section x-show="currentTab === 'contact'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">Contact</h1>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-stone-900 mb-4">Contact Information</h2>
+                        <div class="space-y-3 text-stone-700">
+                            <p class="flex items-start gap-3">
+                                <i class="fa-solid fa-location-dot mt-1 text-brand-700"></i>
+                                <span>Sentani, Kabupaten Jayapura, Papua, Indonesia</span>
+                            </p>
+                            <p class="flex items-center gap-3">
+                                <i class="fa-solid fa-envelope text-brand-700"></i>
+                                <span>info@benihindonesia.org</span>
+                            </p>
+                            <p class="flex items-center gap-3">
+                                <i class="fa-solid fa-phone text-brand-700"></i>
+                                <span>+62 812-3456-7890</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-bold text-stone-900 mb-3">Social Media</h2>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-stone-600 hover:text-brand-700 text-2xl"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="text-stone-600 hover:text-brand-700 text-2xl"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-2xl font-bold text-stone-900 mb-4">FAQ</h2>
+                        <p class="text-stone-700 leading-relaxed">
+                            Pertanyaan umum mengenai lokasi pengajaran, tata cara keterlibatan relawan, serta mekanisme pendampingan program dapat ditanyakan langsung melalui formulir kontak.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-900 mb-4">Inquiry Form</h2>
+                    <form @submit.prevent class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-1">Nama Lengkap</label>
+                            <input type="text" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="Nama Anda">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-1">Email</label>
+                            <input type="email" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="email@contoh.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-1">Pesan</label>
+                            <textarea rows="4" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="Tuliskan pesan Anda di sini..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-800 text-white font-medium py-2.5 rounded-md hover:bg-brand-700 transition-colors text-sm">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- GET INVOLVED / DONATION SECTION -->
+        <section x-show="currentTab === 'get-involved'" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-3xl font-bold text-stone-900 mb-8">Get Involved</h1>
+
+            <div class="space-y-8">
+                <h2 class="text-2xl font-bold text-stone-900">Registration Form</h2>
+                <form @submit.prevent class="max-w-2xl space-y-4 bg-white p-6 border border-stone-200 rounded-lg">
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-1">Kategori Keterlibatan</label>
+                        <select class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm bg-white">
+                            <option>Donation</option>
+                            <option>Volunteers</option>
+                            <option>Collaborating Partners</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-1">Nama Lengkap / Instansi</label>
+                        <input type="text" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="Nama lengkap atau nama lembaga">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-1">Email Kontak</label>
+                        <input type="email" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="email@domain.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-1">Nomor Telepon / WhatsApp</label>
+                        <input type="tel" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="+62 ...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-1">Catatan Tambahan</label>
+                        <textarea rows="3" class="w-full border border-stone-300 rounded-md p-2.5 focus:ring-1 focus:ring-brand-700 focus:outline-none text-sm" placeholder="Sampaikan detail niat dukungan atau rencana kolaborasi..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-800 text-white font-medium py-2.5 rounded-md hover:bg-brand-700 transition-colors text-sm">Submit Registration</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-100 border-t border-stone-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-stone-600">
+                <p>&copy; 2026 Benih Indonesia. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <button @click="currentTab = 'home'" class="hover:text-stone-900">Home</button>
+                    <button @click="currentTab = 'about'" class="hover:text-stone-900">About Us</button>
+                    <button @click="currentTab = 'contact'" class="hover:text-stone-900">Contact</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
