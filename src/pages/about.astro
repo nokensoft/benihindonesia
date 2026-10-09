@@ -1,0 +1,151 @@
+---
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { orgId } from '../data/site';
+import silvia from '../assets/team/silvia.jpg';
+import frederik from '../assets/team/frederik.jpg';
+
+const page = new URL('/about/', Astro.site).href;
+const photo = async (src: ImageMetadata) =>
+    new URL((await getImage({ src, width: 480, format: 'jpg' })).src, Astro.site).href;
+
+const schema = [
+    {
+        '@type': 'Person',
+        '@id': `${page}#silvia-wambukomo`,
+        name: 'Silvia Wambukomo',
+        jobTitle: 'Co-founder',
+        image: await photo(silvia),
+        sameAs: ['https://www.linkedin.com/in/silvia-wambukomo-b4849a255'],
+        worksFor: { '@id': orgId },
+    },
+    {
+        '@type': 'Person',
+        '@id': `${page}#frederick-m`,
+        name: 'Frederick M.',
+        jobTitle: 'Co-founder',
+        image: await photo(frederik),
+        sameAs: ['https://www.linkedin.com/in/frederick-m-2ab5a1281'],
+        worksFor: { '@id': orgId },
+    },
+];
+---
+<BaseLayout
+    title="Tentang Kami: Tim, Visi & Misi | Benih Indonesia"
+    description="Kenali Benih Indonesia: organisasi, tim pendiri, visi dan misi, perjalanan 2026–2030, serta mitra kami dalam memajukan literasi anak-anak Papua."
+    pageType="AboutPage"
+    pageName="Tentang Benih Indonesia"
+    breadcrumb="About Us"
+    schema={schema}
+>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <Breadcrumb label="About Us" />
+
+        <h1 class="text-3xl font-bold text-stone-900 mb-6">About Us</h1>
+
+        <!-- In-page Navigation (sticky, horizontally scrollable on small screens) -->
+        <nav aria-label="On this page" data-section-nav translate="no" class="notranslate sticky top-16 lg:top-20 z-40 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 bg-stone-50/95 backdrop-blur-md border-b border-stone-200 mb-10">
+            <ul class="no-scrollbar flex gap-2 overflow-x-auto py-3 text-sm">
+                <li class="shrink-0"><a href="#organization" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Organization</a></li>
+                <li class="shrink-0"><a href="#team" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Team</a></li>
+                <li class="shrink-0"><a href="#vision" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Mission &amp; Vision</a></li>
+                <li class="shrink-0"><a href="#journey" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Journey</a></li>
+                <li class="shrink-0"><a href="#partner" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Partner</a></li>
+            </ul>
+        </nav>
+
+        <div class="space-y-12 md:space-y-16">
+            <section id="organization" class="space-y-4 scroll-mt-16">
+                <h2 class="text-2xl font-bold text-stone-900">Our Organization</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Benih Indonesia berdiri sebagai bentuk kepedulian mendalam terhadap tantangan literasi dasar di Papua. Organisasi ini berfokus pada penyediaan akses dan metode belajar literasi dan numerasi yang inklusif, relevan, serta berkelanjutan bagi anak-anak di daerah rural maupun perkotaan.
+                </p>
+            </section>
+
+            <section id="team" class="space-y-6 scroll-mt-16">
+                <h2 class="text-2xl font-bold text-stone-900">Our Team</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Silvia Wambukomo -->
+                    <article id="silvia-wambukomo" class="p-5 sm:p-6 bg-white border border-stone-200 rounded-lg flex flex-col gap-4">
+                        <div class="flex gap-4 items-start">
+                            <Image src={silvia} alt="Foto Silvia Wambukomo, Co-founder Benih Indonesia" width={192} height={240} class="w-20 sm:w-24 aspect-[4/5] object-cover rounded-md shrink-0" />
+                            <div class="min-w-0">
+                                <h3 class="text-lg sm:text-xl font-bold text-stone-900">Silvia Wambukomo</h3>
+                                <p class="text-sm text-stone-600 mt-1">MSc Education, Public Policy and Equity</p>
+                                <p class="text-brand-700 font-medium mt-2">Co-founder</p>
+                            </div>
+                        </div>
+                        <p class="text-stone-600">Mengawasi dan memimpin strategi pengembangan program literasi serta integrasi kurikulum berbasis komunitas lokal.</p>
+                        <a href="https://www.linkedin.com/in/silvia-wambukomo-b4849a255" target="_blank" rel="noopener noreferrer" class="self-start inline-flex items-center gap-2 min-h-[44px] px-3 -mx-3 rounded-md text-sm font-medium text-stone-600 hover:text-brand-700 hover:bg-stone-50 transition-colors">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.68 1.68 0 1 0 0 3.36 1.68 1.68 0 0 0 0-3.36Z"/>
+                            </svg>
+                            LinkedIn<span class="sr-only"> Silvia Wambukomo (tab baru)</span>
+                        </a>
+                    </article>
+
+                    <!-- Frederick M. -->
+                    <article id="frederick-m" class="p-5 sm:p-6 bg-white border border-stone-200 rounded-lg flex flex-col gap-4">
+                        <div class="flex gap-4 items-start">
+                            <Image src={frederik} alt="Foto Frederick M., Co-founder Benih Indonesia" width={192} height={240} class="w-20 sm:w-24 aspect-[4/5] object-cover rounded-md shrink-0" />
+                            <div class="min-w-0">
+                                <h3 class="text-lg sm:text-xl font-bold text-stone-900">Frederick M.</h3>
+                                <p class="text-sm text-stone-600 mt-1">MSc Management with Enterprise and Business Growth</p>
+                                <p class="text-brand-700 font-medium mt-2">Co-founder</p>
+                            </div>
+                        </div>
+                        <p class="text-stone-600">Mengelola kemitraan strategis, operasional lapangan, dan pengembangan jaringan sukarelawan di berbagai wilayah operasional.</p>
+                        <a href="https://www.linkedin.com/in/frederick-m-2ab5a1281" target="_blank" rel="noopener noreferrer" class="self-start inline-flex items-center gap-2 min-h-[44px] px-3 -mx-3 rounded-md text-sm font-medium text-stone-600 hover:text-brand-700 hover:bg-stone-50 transition-colors">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.68 1.68 0 1 0 0 3.36 1.68 1.68 0 0 0 0-3.36Z"/>
+                            </svg>
+                            LinkedIn<span class="sr-only"> Frederick M. (tab baru)</span>
+                        </a>
+                    </article>
+                </div>
+            </section>
+
+            <section id="vision" class="space-y-6 scroll-mt-16">
+                <h2 class="text-2xl font-bold text-stone-900">Our Mission and Vision</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Vision</h3>
+                        <p class="text-stone-700">Terwujudnya anak-anak Papua yang mahir berliterasi dan bernumerasi sebagai landasan utama untuk meraih potensi maksimal mereka.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Mission</h3>
+                        <p class="text-stone-700">Menyediakan program literasi dan numerasi yang efektif, melatih pendidik lokal, serta menggalang kolaborasi komunitas demi terciptanya lingkungan belajar yang berkelanjutan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="journey" class="space-y-4 scroll-mt-16">
+                <h2 class="text-2xl font-bold text-stone-900">Our Journey: Timeline 2026 - 2030</h2>
+                <ol class="space-y-4 border-l-2 border-stone-200 pl-6 ml-2">
+                    <li>
+                        <span class="text-sm font-bold text-brand-700">2026</span>
+                        <p class="text-stone-700">Penguatan metode <a href="/resources/" class="underline decoration-stone-300 hover:text-brand-700">TaRL</a> dan perluasan cakupan pendampingan di Jayapura Regency dan Jayapura City.</p>
+                    </li>
+                    <li>
+                        <span class="text-sm font-bold text-brand-700">2028</span>
+                        <p class="text-stone-700">Replikasi program di seluruh wilayah operasional target (Biak Numfor, Sarmi, Yapen, Nabire, Merauke, Fak Fak).</p>
+                    </li>
+                    <li>
+                        <span class="text-sm font-bold text-brand-700">2030</span>
+                        <p class="text-stone-700">Pencapaian kemandirian komunitas lokal dalam mengelola sentra-sentra belajar literasi secara mandiri.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section id="partner" class="space-y-4 scroll-mt-16">
+                <h2 class="text-2xl font-bold text-stone-900">Our Partner</h2>
+                <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">International University of Papua</h3>
+                    <p class="text-stone-700">Mitra strategis dalam riset pendidikan, penyediaan tenaga akademik, serta pengembangan kepemimpinan pemuda di bidang pendidikan literasi.</p>
+                </div>
+                <p class="text-stone-700">Tertarik menjadi mitra? <a href="/get-involved/" class="font-medium text-brand-700 hover:underline">Daftar sebagai Collaborating Partner</a>.</p>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

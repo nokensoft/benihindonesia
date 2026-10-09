@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+    --color-brand-50: #f0fdf4;
+    --color-brand-100: #dcfce7;
+    --color-brand-600: #16a34a;
+    --color-brand-700: #15803d;
+    --color-brand-800: #166534;
+    --color-brand-900: #14532d;
+}
+
+/* Tailwind v3 defaults this design was built on */
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-stone-200, currentColor);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--color-stone-400);
+    }
+
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+/* Global tweaks that complement Tailwind utilities */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    /* Keep anchor targets clear of the sticky header */
+    scroll-padding-top: 5rem;
+}
+
+@media (min-width: 1024px) {
+    html {
+        scroll-padding-top: 6rem;
+    }
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+    outline: 2px solid #15803d;
+    outline-offset: 2px;
+}
+
+a,
+button,
+select {
+    -webkit-tap-highlight-color: rgba(22, 101, 52, 0.15);
+}
+
+/* Horizontal chip strip without a visible scrollbar */
+.no-scrollbar {
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Google Translate: keep the widget working but hide all of its own UI,
+   since the site uses its own ID/EN switcher */
+.gt-holder {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.goog-te-banner-frame,
+iframe.skiptranslate,
+body > .skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-te-spinner-pos,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf {
+    display: none !important;
+}
+
+/* Google pushes the page down to make room for its banner */
+html.translated-ltr body,
+html.translated-rtl body,
+body {
+    top: 0 !important;
+}
+
+.goog-text-highlight,
+font[style] {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}

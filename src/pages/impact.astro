@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+<BaseLayout
+    title="Dampak Program & Kerangka 3Cs | Benih Indonesia"
+    description="Dampak Benih Indonesia melalui kerangka 3Cs (Clarity, Confidence, Consistency) bagi relawan pengajar, anak-anak penerima manfaat, dan komunitas di Papua."
+    pageType="WebPage"
+    pageName="Dampak Program Benih Indonesia"
+    breadcrumb="Impact"
+>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <Breadcrumb label="Impact" />
+
+        <h1 class="text-3xl font-bold text-stone-900 mb-8">Impact</h1>
+
+        <div class="space-y-12">
+            <section>
+                <h2 class="text-2xl font-bold text-stone-900 mb-6">3Cs Framework</h2>
+                <div class="grid md:grid-cols-3 gap-4 md:gap-6">
+                    <div class="p-5 sm:p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-lg font-bold text-brand-800 mb-2">Clarity</h3>
+                        <p class="text-stone-600">Memberikan pemahaman yang jelas mengenai tingkat kemampuan baca dan berhitung awal siswa.</p>
+                    </div>
+                    <div class="p-5 sm:p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-lg font-bold text-brand-800 mb-2">Confidence</h3>
+                        <p class="text-stone-600">Membangun rasa percaya diri anak-anak untuk mengekspresikan diri dan belajar tanpa rasa takut.</p>
+                    </div>
+                    <div class="p-5 sm:p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-lg font-bold text-brand-800 mb-2">Consistency</h3>
+                        <p class="text-stone-600">Menjaga konsistensi pendampingan melalui kelas-kelas belajar rutin berbasis komunitas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="border-t border-stone-200 pt-8">
+                <h2 class="text-2xl font-bold text-stone-900 mb-6">Testimonies &amp; Beneficiaries in Numbers</h2>
+                <div class="grid md:grid-cols-3 gap-4 md:gap-6 mb-8 text-center">
+                    <div class="p-5 sm:p-6 bg-stone-100 rounded-lg">
+                        <h3 class="text-2xl md:text-3xl font-bold text-brand-800">Volunteer Teachers</h3>
+                        <p class="text-stone-600 mt-2">Relawan pengajar lokal terpilih dan terlatih.</p>
+                    </div>
+                    <div class="p-5 sm:p-6 bg-stone-100 rounded-lg">
+                        <h3 class="text-2xl md:text-3xl font-bold text-brand-800">Learners</h3>
+                        <p class="text-stone-600 mt-2">Anak-anak penerima manfaat program literasi &amp; numerasi.</p>
+                    </div>
+                    <div class="p-5 sm:p-6 bg-stone-100 rounded-lg">
+                        <h3 class="text-2xl md:text-3xl font-bold text-brand-800">Society</h3>
+                        <p class="text-stone-600 mt-2">Komunitas dan keluarga yang merasakan dampak positif.</p>
+                    </div>
+                </div>
+                <p class="text-stone-700">Pelajari <a href="/programmes/" class="font-medium text-brand-700 hover:underline">program-program kami</a> yang menghasilkan dampak ini.</p>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

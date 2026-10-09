@@ -1,0 +1,134 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, orgId, websiteId } from '../data/site';
+import hero from '../assets/hero1.png';
+
+const regencies = [
+    'Kabupaten Jayapura',
+    'Kota Jayapura',
+    'Kabupaten Biak Numfor',
+    'Kabupaten Sarmi',
+    'Kabupaten Kepulauan Yapen',
+    'Kabupaten Nabire',
+    'Kabupaten Merauke',
+    'Kabupaten Fakfak',
+];
+
+const schema = [
+    {
+        '@type': 'NGO',
+        '@id': orgId,
+        name: site.name,
+        url: `${site.url}/`,
+        logo: `${site.url}/img/brand/logo-512.png`,
+        slogan: 'Better Literacy. Brighter Futures.',
+        description: 'Organisasi nirlaba yang berfokus pada peningkatan kemampuan literasi dan numerasi dasar anak-anak di tanah Papua melalui pendekatan berbasis komunitas.',
+        email: site.email,
+        address: {
+            '@type': 'PostalAddress',
+            streetAddress: site.address.street,
+            addressLocality: site.address.locality,
+            addressRegion: site.address.region,
+            postalCode: site.address.postalCode,
+            addressCountry: site.address.countryCode,
+        },
+        location: {
+            '@type': 'Place',
+            hasMap: site.mapUrl,
+            geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude },
+        },
+        areaServed: regencies.map((name) => ({ '@type': 'AdministrativeArea', name })),
+        knowsAbout: ['Literasi', 'Numerasi', 'Teaching at the Right Level', 'Pendidikan Papua'],
+        founder: [
+            { '@id': `${site.url}/about/#silvia-wambukomo` },
+            { '@id': `${site.url}/about/#frederick-m` },
+        ],
+    },
+    {
+        '@type': 'WebSite',
+        '@id': websiteId,
+        url: `${site.url}/`,
+        name: site.name,
+        inLanguage: 'id-ID',
+        publisher: { '@id': orgId },
+    },
+];
+---
+<BaseLayout
+    title="Benih Indonesia – Literasi & Numerasi Anak Papua"
+    description="Benih Indonesia adalah organisasi nirlaba yang meningkatkan literasi dan numerasi dasar anak-anak di Papua melalui pendekatan berbasis komunitas dan metode TaRL."
+    schema={schema}
+>
+    <!-- Hero: the artwork already contains the headline, copy and buttons -->
+    <section aria-labelledby="hero-title" class="bg-stone-100">
+        <h1 id="hero-title" class="sr-only">Benih Indonesia – Better Literacy. Brighter Futures.</h1>
+        <div class="relative mx-auto max-w-[1983px]">
+            <Picture
+                src={hero}
+                formats={['avif', 'webp']}
+                fallbackFormat="jpg"
+                widths={[800, 1200, 1600, 1983]}
+                sizes="(min-width: 1983px) 1983px, 100vw"
+                alt="Ilustrasi anak-anak Papua memandang danau dan peta wilayah operasional Benih Indonesia, bertuliskan: Better Literacy. Brighter Futures. Teach the lake. Grow the forest. Benih Indonesia is a non-profit organisation providing foundational literacy and numeracy skills to underserved school students in Papua, helping them learn at the right level and build a brighter future. 8 Regencies: Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak."
+                loading="eager"
+                fetchpriority="high"
+                pictureAttributes={{ class: 'block' }}
+                class="block w-full h-auto"
+            />
+            <!-- Invisible clickable areas over the buttons drawn in the artwork -->
+            <a href="/programmes/" translate="no" class="notranslate absolute left-[6.3%] top-[56.3%] w-[13.3%] h-[6.4%] rounded-full" aria-label="Our Programmes"></a>
+            <a href="/about/" translate="no" class="notranslate absolute left-[20.5%] top-[56.3%] w-[9.5%] h-[6.4%] rounded-full" aria-label="Learn More"></a>
+        </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 md:py-20">
+        <div class="space-y-10 md:space-y-12">
+            <div>
+                <h2 class="text-xl font-bold text-stone-900 mb-6">Operational Regencies</h2>
+                <p class="text-stone-700 mb-6">Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak</p>
+
+                <div class="grid md:grid-cols-2 gap-4 md:gap-8 pt-2 md:pt-4">
+                    <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-lg font-bold text-stone-900 mb-2">Better Learning</h3>
+                        <p class="text-stone-600">Mengimplementasikan sistem pembelajaran kontekstual yang disesuaikan dengan tingkat kemampuan anak-anak di Papua.</p>
+                    </div>
+                    <div class="p-6 bg-white border border-stone-200 rounded-lg">
+                        <h3 class="text-lg font-bold text-stone-900 mb-2">Stronger Communities</h3>
+                        <p class="text-stone-600">Mendorong keterlibatan aktif pemuda lokal, pengajar, dan masyarakat sekitar untuk menciptakan ekosistem pendidikan berkelanjutan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-10 md:pt-12 border-t border-stone-200">
+                <h2 class="text-xl font-bold text-stone-900 mb-6">Jelajahi Benih Indonesia</h2>
+                <div class="grid sm:grid-cols-2 gap-4 md:gap-6">
+                    <a href="/programmes/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
+                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Programmes</h3>
+                        <p class="text-stone-600">Pembelajaran berbasis tingkat kemampuan anak melalui pendekatan Teaching at the Right Level (TaRL).</p>
+                    </a>
+                    <a href="/impact/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
+                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Impact</h3>
+                        <p class="text-stone-600">Kerangka 3Cs (Clarity, Confidence, Consistency) dan penerima manfaat program kami.</p>
+                    </a>
+                    <a href="/stories/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
+                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Stories</h3>
+                        <p class="text-stone-600">Kisah pembelajaran yang berakar pada budaya, bahasa, dan kuliner Papua.</p>
+                    </a>
+                    <a href="/resources/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
+                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Resources</h3>
+                        <p class="text-stone-600">Metodologi pengajaran Teaching at the Right Level (TaRL) yang kami terapkan.</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-8 bg-brand-50 border border-brand-100 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h2 class="text-xl font-bold text-stone-900 mb-2">Ingin ikut berkontribusi?</h2>
+                    <p class="text-stone-700">Dukung literasi anak Papua melalui donasi, menjadi relawan, atau berkolaborasi sebagai mitra.</p>
+                </div>
+                <a href="/get-involved/" class="shrink-0 px-6 py-3 bg-brand-800 text-white font-medium rounded-md hover:bg-brand-700 transition-colors text-center">Get Involved</a>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+<BaseLayout
+    title="Cerita Papua: Budaya, Bahasa & Kuliner | Benih Indonesia"
+    description="Kisah pembelajaran Benih Indonesia yang berakar pada kearifan lokal Papua: keragaman bahasa daerah, kuliner tradisional seperti papeda, dan budaya masyarakat."
+    pageType="WebPage"
+    pageName="Cerita Papua: Budaya, Bahasa, dan Kuliner"
+    breadcrumb="Stories"
+>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <Breadcrumb label="Stories" />
+
+        <h1 class="text-3xl font-bold text-stone-900 mb-8">Stories</h1>
+
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold text-stone-900">About Papua &amp; Culture, Language, and Food</h2>
+            <p class="text-stone-700 leading-relaxed">
+                Kisah-kisah pembelajaran di Benih Indonesia berakar kuat pada kearifan lokal Papua. Keanekaragaman bahasa daerah, kekayaan kuliner tradisional seperti papeda dan umbi-umbian, serta kehangatan budaya kemasyarakatan menjadi bagian integral dalam penyusunan konteks materi pembelajaran anak-anak.
+            </p>
+            <p class="text-stone-700">Baca juga tentang <a href="/resources/" class="font-medium text-brand-700 hover:underline">metodologi pengajaran kami</a>.</p>
+        </section>
+    </div>
+</BaseLayout>

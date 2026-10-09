@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+<BaseLayout
+    title="Program Literasi & Numerasi TaRL di Papua | Benih Indonesia"
+    description="Program unggulan Benih Indonesia menerapkan Teaching at the Right Level (TaRL) untuk literasi dan numerasi anak Papua, mendukung SDG 1, SDG 4, dan SDG 10."
+    pageType="WebPage"
+    pageName="Program Literasi dan Numerasi Benih Indonesia"
+    breadcrumb="Programmes"
+>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <Breadcrumb label="Programmes" />
+
+        <h1 class="text-3xl font-bold text-stone-900 mb-8">Programmes</h1>
+
+        <div class="space-y-12">
+            <section>
+                <h2 class="text-2xl font-bold text-stone-900 mb-4">Featured Programmes</h2>
+                <p class="text-stone-700 leading-relaxed mb-6">
+                    Penerapan pembelajaran berbasis tingkat kemampuan anak melalui pendekatan <a href="/resources/" class="underline decoration-stone-300 hover:text-brand-700">Teaching at the Right Level (TaRL)</a>, yang secara langsung mendukung pencapaian UN Sustainable Development Goals (SDG 1: No Poverty, SDG 4: Quality Education, dan SDG 10: Reduced Inequalities).
+                </p>
+            </section>
+
+            <section class="border-t border-stone-200 pt-8">
+                <h2 class="text-2xl font-bold text-stone-900 mb-4">Supporting Programmes</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Program pendukung pelatihan guru lokal, penyediaan sudut baca masyarakat, serta workshop numerasi dasar berbasis aktivitas sehari-hari. (Placeholder update untuk inisiatif mendalam mendatang).
+                </p>
+            </section>
+
+            <section class="border-t border-stone-200 pt-8">
+                <p class="text-stone-700">Lihat <a href="/impact/" class="font-medium text-brand-700 hover:underline">dampak program kami</a> atau <a href="/get-involved/" class="font-medium text-brand-700 hover:underline">ikut terlibat sebagai relawan</a>.</p>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

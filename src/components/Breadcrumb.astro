@@ -1,0 +1,13 @@
+---
+interface Props {
+    label: string;
+}
+const { label } = Astro.props;
+---
+<nav aria-label="Breadcrumb" translate="no" class="notranslate text-sm text-stone-500 mb-4 md:mb-6">
+    <ol class="flex flex-wrap items-center gap-2">
+        <li><a href="/" class="inline-block py-1 hover:text-stone-900">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-stone-700">{label}</li>
+    </ol>
+</nav>

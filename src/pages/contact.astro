@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { site } from '../data/site';
+
+const coords = `${site.geo.latitude},${site.geo.longitude}`;
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${coords}`;
+const embedUrl = `https://www.google.com/maps/embed?pb=!1m3!2m1!1s${coords}!6i17!3m1!1sid!5m1!1sid`;
+---
+<BaseLayout
+    title="Alamat & Lokasi – Sentani, Papua | Benih Indonesia"
+    description="Alamat lengkap dan peta lokasi Benih Indonesia di Jl. Kemiri, Hinekombe, Sentani, Kabupaten Jayapura, Papua 99532."
+    pageType="ContactPage"
+    pageName="Hubungi Benih Indonesia"
+    breadcrumb="Contact"
+>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <Breadcrumb label="Contact" />
+
+        <h1 class="text-3xl font-bold text-stone-900 mb-8">Contact</h1>
+
+        <div class="grid lg:grid-cols-5 gap-8 lg:gap-10 items-start">
+            <section class="lg:col-span-2 space-y-6">
+                <h2 class="text-2xl font-bold text-stone-900">Alamat Kami</h2>
+                <address class="not-italic flex items-start gap-3 text-stone-700 leading-relaxed">
+                    <svg class="w-5 h-5 mt-0.5 shrink-0 text-brand-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+                    <span>
+                        <strong class="notranslate block text-stone-900" translate="no">Benih Indonesia</strong>
+                        {site.address.street}<br>
+                        {site.address.district}, {site.address.regency}<br>
+                        {site.address.region} {site.address.postalCode}, {site.address.country}
+                    </span>
+                </address>
+                <div class="flex flex-col sm:flex-row lg:flex-col gap-3">
+                    <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-800 text-white font-medium rounded-md hover:bg-brand-700 transition-colors">
+                        Buka di Google Maps<span class="sr-only"> (tab baru)</span>
+                    </a>
+                    <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-5 py-3 border border-stone-300 bg-white text-stone-800 font-medium rounded-md hover:bg-stone-100 transition-colors">
+                        Petunjuk Arah<span class="sr-only"> (tab baru)</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="lg:col-span-3" aria-label="Peta lokasi">
+                <div class="overflow-hidden rounded-lg border border-stone-200 bg-stone-100 aspect-[4/3] sm:aspect-video lg:aspect-[4/3]">
+                    <iframe
+                        src={embedUrl}
+                        title="Peta lokasi Benih Indonesia di Sentani, Kabupaten Jayapura"
+                        class="w-full h-full border-0"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen></iframe>
+                </div>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

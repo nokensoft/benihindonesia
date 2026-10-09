@@ -1,0 +1,45 @@
+# Build the Astro site and upload dist/ to the CloudPanel VPS over SSH.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   SSH_HOST  VPS IP address or hostname
+#   SSH_USER  CloudPanel site user (owner of /home/<user>/htdocs/benihindonesia.org)
+#   SSH_KEY   private key whose public key is added to that site user in CloudPanel
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Upload to VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          # .well-known holds Let's Encrypt challenges; never delete it
+          rsync -az --delete --exclude '.well-known' dist/ \
+            "$SSH_USER@$SSH_HOST:/home/$SSH_USER/htdocs/benihindonesia.org/"
