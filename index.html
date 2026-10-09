@@ -163,21 +163,26 @@
 
     <!-- Main Content Area -->
     <main id="main" class="flex-grow">
-        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 md:py-24">
-            <div class="space-y-10 md:space-y-12">
-                <div class="space-y-6">
-                    <h1 class="text-[2.25rem] leading-[1.1] sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900">Better Literacy. Brighter Futures.</h1>
-                    <p class="text-xl sm:text-2xl md:text-3xl font-medium text-stone-600">Teach the successors. Grow their potential.</p>
-                    <p class="text-lg leading-relaxed text-stone-700">
-                        Benih Indonesia merupakan organisasi nirlaba yang berfokus pada peningkatan kemampuan literasi dan numerasi dasar anak-anak di tanah Papua. Melalui pendekatan berbasis komunitas dan metode pembelajaran yang terstruktur, Benih Indonesia berkomitmen untuk mendampingi generasi muda Papua dalam membangun fondasi pendidikan yang kokoh demi masa depan yang lebih inklusif dan berdaya.
-                    </p>
-                    <div class="pt-2 sm:pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
-                        <a href="programmes.html" class="px-6 py-3 text-center bg-brand-800 text-white font-medium rounded-md hover:bg-brand-700 transition-colors">Our Programmes</a>
-                        <a href="about.html" class="px-6 py-3 text-center border border-stone-300 bg-white text-stone-800 font-medium rounded-md hover:bg-stone-100 transition-colors">Learn More</a>
-                    </div>
-                </div>
+        <!-- Hero: the artwork already contains the headline, copy and buttons -->
+        <section aria-labelledby="hero-title" class="bg-stone-100">
+            <h1 id="hero-title" class="sr-only">Benih Indonesia – Better Literacy. Brighter Futures.</h1>
+            <div class="relative mx-auto max-w-[1983px]">
+                <img src="img/hero1-1983.jpg"
+                     srcset="img/hero1-800.jpg 800w, img/hero1-1200.jpg 1200w, img/hero1-1983.jpg 1983w"
+                     sizes="(min-width: 1983px) 1983px, 100vw"
+                     width="1983" height="793"
+                     fetchpriority="high"
+                     alt="Ilustrasi anak-anak Papua memandang danau dan peta wilayah operasional Benih Indonesia, bertuliskan: Better Literacy. Brighter Futures. Teach the lake. Grow the forest. Benih Indonesia is a non-profit organisation providing foundational literacy and numeracy skills to underserved school students in Papua, helping them learn at the right level and build a brighter future. 8 Regencies: Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak."
+                     class="block w-full h-auto">
+                <!-- Invisible clickable areas over the buttons drawn in the artwork -->
+                <a href="programmes.html" translate="no" class="notranslate absolute left-[6.3%] top-[56.3%] w-[13.3%] h-[6.4%] rounded-full" aria-label="Our Programmes"></a>
+                <a href="about.html" translate="no" class="notranslate absolute left-[20.5%] top-[56.3%] w-[9.5%] h-[6.4%] rounded-full" aria-label="Learn More"></a>
+            </div>
+        </section>
 
-                <div class="pt-10 md:pt-12 border-t border-stone-200">
+        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 md:py-20">
+            <div class="space-y-10 md:space-y-12">
+                <div>
                     <h2 class="text-xl font-bold text-stone-900 mb-6">Operational Regencies</h2>
                     <p class="text-stone-700 mb-6">Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak</p>
 
