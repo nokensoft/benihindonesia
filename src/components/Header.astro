@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import LangSwitch from './LangSwitch.astro';
-import { nav, cta } from '../data/site';
+import { nav, cta, site } from '../data/site';
 import logo from '../assets/logo.png';
 
 const path = Astro.url.pathname;
@@ -16,7 +16,10 @@ const current = (href: string) => (path === href ? 'page' : undefined);
             <!-- Logo -->
             <a class="notranslate flex items-center gap-2 min-w-0 text-lg sm:text-xl xl:text-2xl font-bold tracking-tight text-brand-800 uppercase whitespace-nowrap" href="/" translate="no">
                 <Image src={logo} alt="" width={96} height={96} loading="eager" class="h-10 w-10 lg:h-12 lg:w-12 shrink-0 object-contain rounded-full" />
-                Benih Indonesia
+                <span class="flex flex-col min-w-0 leading-tight">
+                    <span>{site.name}</span>
+                    <span class="text-[11px] sm:text-xs font-medium normal-case tracking-normal text-stone-600 truncate">{site.tagline}</span>
+                </span>
             </a>
 
             <!-- Desktop Navigation -->

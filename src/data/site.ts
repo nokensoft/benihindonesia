@@ -2,6 +2,7 @@
 
 export const site = {
     name: 'Benih Indonesia',
+    tagline: 'Better Literacy. Brighter Futures',
     url: 'https://benihindonesia.org',
     email: 'info@benihindonesia.org',
     whatsapp: '6281248133667',

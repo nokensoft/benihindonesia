@@ -22,7 +22,7 @@ const schema = [
         name: site.name,
         url: `${site.url}/`,
         logo: `${site.url}/img/brand/logo-512.png`,
-        slogan: 'Better Literacy. Brighter Futures.',
+        slogan: site.tagline,
         description: 'Organisasi nirlaba yang berfokus pada peningkatan kemampuan literasi dan numerasi dasar anak-anak di tanah Papua melalui pendekatan berbasis komunitas.',
         email: site.email,
         address: {
@@ -50,13 +50,15 @@ const schema = [
         '@id': websiteId,
         url: `${site.url}/`,
         name: site.name,
+        alternateName: `${site.name} – ${site.tagline}`,
+        description: site.tagline,
         inLanguage: 'id-ID',
         publisher: { '@id': orgId },
     },
 ];
 ---
 <BaseLayout
-    title="Benih Indonesia – Literasi & Numerasi Anak Papua"
+    title={`${site.name} – ${site.tagline}`}
     description="Benih Indonesia adalah organisasi nirlaba yang meningkatkan literasi dan numerasi dasar anak-anak di Papua melalui pendekatan berbasis komunitas dan metode TaRL."
     schema={schema}
 >

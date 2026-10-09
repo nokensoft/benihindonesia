@@ -7,7 +7,10 @@ const links = [...nav.filter((item) => item.href !== '/'), cta];
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] md:pt-12">
         <div class="grid gap-8 md:grid-cols-3 text-sm text-stone-600">
             <div class="space-y-3">
-                <p class="notranslate text-base font-bold text-brand-800 uppercase tracking-tight" translate="no">Benih Indonesia</p>
+                <div class="notranslate" translate="no">
+                    <p class="text-base font-bold text-brand-800 uppercase tracking-tight">{site.name}</p>
+                    <p class="text-sm font-medium text-stone-700">{site.tagline}</p>
+                </div>
                 <p>Organisasi nirlaba untuk literasi dan numerasi dasar anak-anak di tanah Papua.</p>
             </div>
             <nav aria-label="Footer navigation" translate="no" class="notranslate">
