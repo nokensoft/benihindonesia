@@ -70,7 +70,7 @@
 </head>
 <body class="bg-stone-50 text-stone-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:px-4 focus:py-3 focus:rounded-md focus:shadow">Lewati ke konten utama</a>
+    <a href="#main" translate="no" class="notranslate sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:px-4 focus:py-3 focus:rounded-md focus:shadow">Skip to main content</a>
 
     <!-- Navbar & Header -->
     <header class="sticky top-0 z-50 bg-stone-50/95 backdrop-blur-md border-b border-stone-200" data-site-header>
@@ -78,13 +78,13 @@
             <div class="flex justify-between gap-4 h-16 lg:h-20 items-center">
 
                 <!-- Logo -->
-                <a class="flex items-center gap-2 min-w-0 text-lg sm:text-xl xl:text-2xl font-bold tracking-tight text-brand-800 uppercase whitespace-nowrap" href="index.html">
+                <a class="notranslate flex items-center gap-2 min-w-0 text-lg sm:text-xl xl:text-2xl font-bold tracking-tight text-brand-800 uppercase whitespace-nowrap" href="index.html" translate="no">
                     <img src="img/brand/logo-96.png" alt="" width="48" height="48" class="h-10 w-10 lg:h-12 lg:w-12 shrink-0 object-contain rounded-full">
                     Benih Indonesia
                 </a>
 
                 <!-- Desktop Navigation -->
-                <nav aria-label="Navigasi utama" class="hidden lg:flex items-center gap-5 xl:gap-6">
+                <nav aria-label="Main navigation" translate="no" class="notranslate hidden xl:flex items-center gap-6 whitespace-nowrap">
                     <a href="index.html" class="py-2 text-sm transition-colors border-b-2 border-transparent text-stone-600 hover:text-stone-900 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold aria-[current=page]:border-brand-700">Home</a>
                     <a href="about.html" class="py-2 text-sm transition-colors border-b-2 border-transparent text-stone-600 hover:text-stone-900 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold aria-[current=page]:border-brand-700">About Us</a>
                     <a href="programmes.html" class="py-2 text-sm transition-colors border-b-2 border-transparent text-stone-600 hover:text-stone-900 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold aria-[current=page]:border-brand-700">Programmes</a>
@@ -92,11 +92,16 @@
                     <a href="stories.html" class="py-2 text-sm transition-colors border-b-2 border-transparent text-stone-600 hover:text-stone-900 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold aria-[current=page]:border-brand-700">Stories</a>
                     <a href="resources.html" class="py-2 text-sm transition-colors border-b-2 border-transparent text-stone-600 hover:text-stone-900 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold aria-[current=page]:border-brand-700">Resources</a>
                     <a href="contact.html" class="py-2 text-sm transition-colors border-b-2 border-transparent text-stone-600 hover:text-stone-900 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold aria-[current=page]:border-brand-700">Contact</a>
+                    <div role="group" aria-label="Choose language" translate="no" class="notranslate inline-flex items-center gap-1 rounded-full border border-stone-300 bg-white p-0.5 text-xs font-semibold" data-lang-switch>
+                        <svg class="w-4 h-4 ml-1.5 text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/></svg>
+                        <button type="button" lang="id" data-lang="id" aria-pressed="true" title="Bahasa Indonesia" class="px-2.5 py-1 rounded-full text-stone-600 hover:text-stone-900 aria-[pressed=true]:bg-brand-800 aria-[pressed=true]:text-white">ID</button>
+                        <button type="button" lang="en" data-lang="en" aria-pressed="false" title="English" class="px-2.5 py-1 rounded-full text-stone-600 hover:text-stone-900 aria-[pressed=true]:bg-brand-800 aria-[pressed=true]:text-white">EN</button>
+                    </div>
                     <a href="get-involved.html" aria-current="page" class="px-4 py-2 text-sm rounded-md transition-colors bg-brand-800 text-white hover:bg-brand-700 aria-[current=page]:bg-brand-700">Get Involved</a>
                 </nav>
 
                 <!-- Mobile Menu Button -->
-                <button type="button" class="lg:hidden -mr-2 inline-flex items-center justify-center w-11 h-11 shrink-0 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100" aria-controls="mobile-menu" aria-expanded="false" aria-label="Buka menu" data-menu-toggle>
+                <button type="button" class="xl:hidden -mr-2 inline-flex items-center justify-center w-11 h-11 shrink-0 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu" translate="no" data-menu-toggle>
                     <svg data-icon-open class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
                     <svg data-icon-close class="w-6 h-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
                 </button>
@@ -104,7 +109,7 @@
         </div>
 
         <!-- Mobile Navigation Drawer -->
-        <nav id="mobile-menu" aria-label="Navigasi seluler" class="hidden lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-stone-200 bg-stone-50 px-4 pt-3 pb-5 shadow-lg">
+        <nav id="mobile-menu" aria-label="Mobile navigation" translate="no" class="notranslate hidden xl:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-stone-200 bg-stone-50 px-4 pt-3 pb-5 shadow-lg">
             <ul class="space-y-1">
                 <li><a href="index.html" class="block px-3 py-3 rounded-md text-base text-stone-700 hover:bg-stone-100 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold">Home</a></li>
                 <li><a href="about.html" class="block px-3 py-3 rounded-md text-base text-stone-700 hover:bg-stone-100 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold">About Us</a></li>
@@ -114,6 +119,16 @@
                 <li><a href="resources.html" class="block px-3 py-3 rounded-md text-base text-stone-700 hover:bg-stone-100 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold">Resources</a></li>
                 <li><a href="contact.html" class="block px-3 py-3 rounded-md text-base text-stone-700 hover:bg-stone-100 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700 aria-[current=page]:font-semibold">Contact</a></li>
             </ul>
+            <div class="mt-3 flex items-center justify-between gap-3 px-3 py-2 rounded-md border border-stone-200 bg-white">
+                <span class="flex items-center gap-2 text-sm text-stone-600">
+                    <svg class="w-5 h-5 text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/></svg>
+                    <span>Language</span>
+                </span>
+                <div role="group" aria-label="Choose language" translate="no" class="notranslate inline-flex rounded-full border border-stone-300 bg-stone-50 p-1 text-sm font-semibold" data-lang-switch>
+                    <button type="button" lang="id" data-lang="id" aria-pressed="true" class="min-w-[3.25rem] min-h-[2.5rem] px-3 rounded-full text-stone-600 aria-[pressed=true]:bg-brand-800 aria-[pressed=true]:text-white">ID</button>
+                    <button type="button" lang="en" data-lang="en" aria-pressed="false" class="min-w-[3.25rem] min-h-[2.5rem] px-3 rounded-full text-stone-600 aria-[pressed=true]:bg-brand-800 aria-[pressed=true]:text-white">EN</button>
+                </div>
+            </div>
             <a href="get-involved.html" aria-current="page" class="mt-3 block px-3 py-3 rounded-md bg-brand-800 text-white text-base font-medium text-center hover:bg-brand-700">Get Involved</a>
         </nav>
     </header>
@@ -121,7 +136,7 @@
     <!-- Main Content Area -->
     <main id="main" class="flex-grow">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-            <nav aria-label="Breadcrumb" class="text-sm text-stone-500 mb-4 md:mb-6">
+            <nav aria-label="Breadcrumb" translate="no" class="notranslate text-sm text-stone-500 mb-4 md:mb-6">
                 <ol class="flex flex-wrap items-center gap-2">
                     <li><a href="index.html" class="inline-block py-1 hover:text-stone-900">Home</a></li>
                     <li aria-hidden="true">/</li>
@@ -134,7 +149,7 @@
 
             <section class="space-y-6 md:space-y-8">
                 <h2 class="text-2xl font-bold text-stone-900">Registration Form</h2>
-                <form data-static-form class="max-w-2xl space-y-5 bg-white p-5 sm:p-6 border border-stone-200 rounded-lg">
+                <form data-whatsapp-form data-wa-number="6281248133667" class="max-w-2xl space-y-5 bg-white p-5 sm:p-6 border border-stone-200 rounded-lg">
                     <p class="text-sm text-stone-600">Kolom bertanda <span class="text-red-700" aria-hidden="true">*</span><span class="sr-only">bintang</span> wajib diisi.</p>
                     <div>
                         <label for="reg-category" class="block text-sm font-medium text-stone-700 mb-1">Kategori Keterlibatan</label>
@@ -160,10 +175,11 @@
                         <label for="reg-notes" class="block text-sm font-medium text-stone-700 mb-1">Catatan Tambahan</label>
                         <textarea id="reg-notes" name="notes" rows="3" class="w-full border border-stone-300 rounded-md px-3 py-3 text-base sm:text-sm bg-white focus:border-brand-700 focus:ring-2 focus:ring-brand-700/30 focus:outline-none" placeholder="Sampaikan detail niat dukungan atau rencana kolaborasi..."></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-brand-800 text-white font-medium py-3 rounded-md hover:bg-brand-700 transition-colors text-base">Submit Registration</button>
+                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-brand-800 text-white font-medium py-3 rounded-md hover:bg-brand-700 transition-colors text-base"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.2-1.36A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.08.8.82-3-.2-.31a8.2 8.2 0 1 1 6.94 3.84Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.16.25-.63.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.33.08-.16.04-.3-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.86 2.04 4.76 4.76 0 0 0 1 2.53 10.9 10.9 0 0 0 4.17 3.68c1.55.67 2.16.73 2.94.61.47-.07 1.46-.6 1.66-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.16-.47-.28Z"/></svg> Kirim via WhatsApp</button>
+                    <p class="text-sm text-stone-600 text-center">Pendaftaran akan dikirim sebagai pesan WhatsApp ke <span class="notranslate whitespace-nowrap" translate="no">+62 812-4813-3667</span>.</p>
                     <p data-form-status role="status" tabindex="-1" class="hidden text-sm rounded-md p-3 bg-brand-50 border border-brand-100 text-brand-900"></p>
                 </form>
-                <p class="text-stone-700">Ada pertanyaan sebelum mendaftar? <a href="contact.html" class="font-medium text-brand-700 hover:underline">Hubungi kami</a>.</p>
+                <p class="text-stone-700">Ingin berkunjung langsung? <a href="contact.html" class="font-medium text-brand-700 hover:underline">Lihat alamat kami</a>.</p>
             </section>
         </div>
     </main>
@@ -173,11 +189,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] md:pt-12">
             <div class="grid gap-8 md:grid-cols-3 text-sm text-stone-600">
                 <div class="space-y-3">
-                    <p class="text-base font-bold text-brand-800 uppercase tracking-tight">Benih Indonesia</p>
+                    <p class="notranslate text-base font-bold text-brand-800 uppercase tracking-tight" translate="no">Benih Indonesia</p>
                     <p>Organisasi nirlaba untuk literasi dan numerasi dasar anak-anak di tanah Papua.</p>
                 </div>
-                <nav aria-label="Navigasi footer">
-                    <p class="font-semibold text-stone-900 mb-2">Jelajahi</p>
+                <nav aria-label="Footer navigation" translate="no" class="notranslate">
+                    <p class="font-semibold text-stone-900 mb-2">Explore</p>
                     <ul class="grid grid-cols-2 gap-x-4">
                         <li><a href="about.html" class="inline-block py-2 hover:text-stone-900">About Us</a></li>
                         <li><a href="programmes.html" class="inline-block py-2 hover:text-stone-900">Programmes</a></li>
@@ -189,9 +205,9 @@
                     </ul>
                 </nav>
                 <address class="not-italic">
-                    <p class="font-semibold text-stone-900 mb-2">Kontak</p>
-                    <p class="py-2">Sentani, Kabupaten Jayapura, Papua, Indonesia</p>
-                    <p><a href="mailto:info@benihindonesia.org" class="inline-block py-2 break-all hover:text-stone-900">info@benihindonesia.org</a></p>
+                    <p class="notranslate font-semibold text-stone-900 mb-2" translate="no">Contact</p>
+                    <p class="py-2">Jl. Kemiri, Hinekombe, Sentani, Kabupaten Jayapura, Papua 99532, Indonesia</p>
+                    <p><a href="mailto:info@benihindonesia.org" translate="no" class="notranslate inline-block py-2 break-all hover:text-stone-900">info@benihindonesia.org</a></p>
                 </address>
             </div>
             <p class="mt-8 pt-6 border-t border-stone-200 text-sm text-stone-600">&copy; 2026 Benih Indonesia. All rights reserved.</p>

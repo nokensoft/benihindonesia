@@ -26,4 +26,7 @@ robots.txt, sitemap.xml, site.webmanifest
 - Header dan footer ada di setiap file HTML. Jika menambah/mengubah menu, ubah di semua halaman.
 - Halaman baru: salin halaman yang ada, ganti `<title>`, `meta description`, `canonical`, tag `og:`/`twitter:`, JSON-LD, lalu tambahkan URL-nya ke `sitemap.xml`.
 - Domain diasumsikan `https://benihindonesia.org`. Jika berbeda, cari-ganti di semua file `.html`, `robots.txt`, dan `sitemap.xml`.
-- Formulir belum terhubung ke backend (`data-static-form` mencegah submit). Isi atribut `action` setelah endpoint tersedia.
+- Terjemahan ID/EN memakai Google Translate (cookie `googtrans`, script Google hanya dimuat saat EN dipilih). Teks yang tidak boleh diterjemahkan beri `translate="no" class="notranslate"`. Fitur ini perlu dibuka lewat server (http/https), tidak berjalan di `file://`.
+- Formulir Get Involved dikirim sebagai pesan WhatsApp ke nomor di atribut `data-wa-number` (format internasional tanpa `+`, mis. `6281248133667`).
+- Navigasi (header, menu mobile, footer, breadcrumb, navigasi bagian About) sengaja berbahasa Inggris dan diberi `translate="no"` agar tidak diterjemahkan.
+- Peta di Contact memakai iframe Google Maps. Untuk mengganti lokasi: Google Maps → Share → Embed a map → salin `src` iframe.
