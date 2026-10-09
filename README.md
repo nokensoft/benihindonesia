@@ -25,8 +25,9 @@ src/
   scripts/main.js     Menu mobile, navigasi bagian About, ID/EN, formulir WhatsApp
   styles/global.css   Tema Tailwind (warna brand) dan gaya global
 public/               Disalin apa adanya: favicon, og-image, robots.txt, manifest
+deploy/deploy.sh      Skrip deploy di VPS: git pull → build → salin dist/ ke folder web
 deploy/nginx.conf     Potongan konfigurasi Nginx untuk CloudPanel
-.github/workflows/    Build otomatis + upload ke VPS saat push ke main
+.github/workflows/    (Opsional) deploy otomatis via GitHub Actions
 ```
 
 ## Catatan pemeliharaan
@@ -38,11 +39,90 @@ deploy/nginx.conf     Potongan konfigurasi Nginx untuk CloudPanel
 - Formulir Get Involved dikirim sebagai pesan WhatsApp ke `site.whatsapp`.
 - Peta di Contact memakai iframe Google Maps dari koordinat `site.geo`. Untuk lokasi lain: Google Maps → Share → Embed a map.
 
-## Deploy (VPS CloudPanel)
+## Deploy (VPS CloudPanel, via `git pull`)
 
-1. CloudPanel: buat **Static HTML Site** untuk `benihindonesia.org`, pasang SSL Let's Encrypt.
-2. Tempel isi `deploy/nginx.conf` di **Vhost** site tersebut.
-3. Tambahkan SSH key deploy ke site user, lalu isi secrets `SSH_HOST`, `SSH_USER`, `SSH_KEY` di GitHub.
-4. Push ke `main` → GitHub Actions membangun situs dan mengunggah `dist/` ke VPS.
+Repo disimpan di luar folder web (`~/benihindonesia`), di-build di VPS, lalu hanya isi `dist/` yang disalin ke folder web CloudPanel (`~/htdocs/benihindonesia.org`). File sumber tidak ikut terekspos dan situs tidak kosong selama build.
 
-Deploy manual: `npm run build`, lalu upload isi `dist/` ke `/home/<site-user>/htdocs/benihindonesia.org/`.
+Ganti `<site-user>` dan `<ip-vps>` sesuai server.
+
+### 1. CloudPanel (sekali)
+
+1. Pastikan DNS (record A) `benihindonesia.org` mengarah ke IP VPS.
+2. **Sites → Add Site → Create a Static HTML Site**, domain `benihindonesia.org`, buat site user.
+3. **SSL/TLS → New Let's Encrypt Certificate.**
+4. **Vhost**: tempel isi `deploy/nginx.conf` sesuai petunjuk di dalam file tersebut, lalu simpan.
+
+### 2. Persiapan VPS (sekali)
+
+Login sebagai site user (bukan root, agar kepemilikan file benar):
+
+```bash
+ssh <site-user>@<ip-vps>        # atau dari root: su - <site-user>
+```
+
+Pasang Node.js lewat nvm (tanpa root; cek versi terbaru nvm di github.com/nvm-sh/nvm):
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+node -v
+```
+
+Clone repo. Jika repo publik:
+
+```bash
+git clone https://github.com/nokensoft/benihindonesia.git ~/benihindonesia
+```
+
+Jika repo privat, gunakan deploy key (read-only):
+
+```bash
+ssh-keygen -t ed25519 -C "benihindonesia-vps" -f ~/.ssh/github_deploy -N ""
+cat ~/.ssh/github_deploy.pub
+# Tambahkan ke GitHub → repo → Settings → Deploy keys (tanpa write access)
+
+cat >> ~/.ssh/config <<'EOF'
+Host github.com
+    IdentityFile ~/.ssh/github_deploy
+    IdentitiesOnly yes
+EOF
+chmod 600 ~/.ssh/config
+git clone git@github.com:nokensoft/benihindonesia.git ~/benihindonesia
+```
+
+Jika memakai branch selain `main`: `cd ~/benihindonesia && git checkout <branch>`.
+
+### 3. Deploy
+
+Deploy pertama dan setiap update berikutnya (setelah push dari komputer):
+
+```bash
+bash ~/benihindonesia/deploy/deploy.sh
+```
+
+Skrip menjalankan `git pull` → `npm ci` → `npm run build`, lalu menyalin `dist/` ke `~/htdocs/benihindonesia.org/` (folder `.well-known` untuk SSL tidak dihapus). Folder tujuan bisa diganti: `WEB_ROOT=/path/lain bash deploy/deploy.sh`.
+
+### 4. Cek setelah deploy
+
+```bash
+curl -I https://benihindonesia.org/about/        # 200
+curl -I https://benihindonesia.org/about.html    # 301 → /about/
+curl -I https://benihindonesia.org/about         # 301 → /about/
+```
+
+Daftarkan `https://benihindonesia.org/sitemap-index.xml` di Google Search Console.
+
+### Kendala umum
+
+| Gejala | Solusi |
+|---|---|
+| `rsync: command not found` | Minta root menjalankan `apt install rsync` |
+| Error `sharp` saat build | `cd ~/benihindonesia && npm rebuild sharp` |
+| Build berhenti / `Killed` | RAM kurang; tambahkan swap 1–2 GB (perlu root) |
+| `npm: command not found` di skrip | Pastikan nvm terpasang untuk site user yang sama |
+
+### Alternatif
+
+- **Deploy manual tanpa build di VPS:** jalankan `npm run build` di komputer, lalu upload isi `dist/` ke `/home/<site-user>/htdocs/benihindonesia.org/` via SFTP.
+- **GitHub Actions** (`.github/workflows/deploy.yml`): build dan upload otomatis setiap push ke `main`. Butuh secrets `SSH_HOST`, `SSH_USER`, `SSH_KEY` di GitHub; tanpa secrets tersebut workflow akan gagal. Hapus file ini jika hanya memakai cara `git pull`.
