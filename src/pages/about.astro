@@ -23,12 +23,11 @@ const timeline = [
     },
 ];
 
-// Mitra. Hanya mitra yang sudah final yang ditampilkan (confirmed: true).
-// Logo diambil otomatis dari src/assets/partners/<id>.(png|jpg|jpeg|webp|svg) bila berkasnya ada.
+// Mitra. Logo diambil otomatis dari src/assets/partners/<id>.(png|jpg|jpeg|webp|svg) bila berkasnya ada.
 const partners = [
-    { id: 'd-prize', name: 'D-Prize', confirmed: true },
-    { id: 'international-university-of-papua', name: 'International University of Papua', confirmed: false },
-].filter((partner) => partner.confirmed);
+    { id: 'd-prize', name: 'D-Prize' },
+    { id: 'international-university-of-papua', name: 'International University of Papua' },
+];
 
 const logoModules = import.meta.glob<ImageMetadata>('../assets/partners/*.{png,jpg,jpeg,webp,svg}', {
     eager: true,
@@ -180,9 +179,9 @@ const schema = [
                     {partners.map((partner) => {
                         const logo = logoFor(partner.id);
                         return (
-                            <div class="p-6 bg-white border border-stone-200 rounded-lg flex items-center gap-4">
-                                {logo && <Image src={logo} alt={`Logo ${partner.name}`} height={64} class="h-16 w-auto max-w-[8rem] object-contain" />}
-                                <h3 class="text-xl font-bold text-stone-900" translate="no">{partner.name}</h3>
+                            <div class="p-4 sm:p-6 bg-white border border-stone-200 rounded-lg flex items-center gap-3 sm:gap-4">
+                                {logo && <Image src={logo} alt={`Logo ${partner.name}`} height={112} class="h-10 sm:h-14 w-auto max-w-[7rem] sm:max-w-[10rem] object-contain shrink-0" />}
+                                <h3 class="min-w-0 text-lg sm:text-xl font-bold text-stone-900 break-words" translate="no">{partner.name}</h3>
                             </div>
                         );
                     })}

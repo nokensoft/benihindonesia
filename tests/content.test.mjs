@@ -89,7 +89,15 @@ test('Tentang: teks organisasi, visi, misi, linimasa, dan mitra sesuai revisi', 
     assert.match(t, /Perjalanan Kami: 2026–2030/);
     assert.match(t, /Mitra Kami/);
     assert.match(t, /D-Prize/);
-    assert.doesNotMatch(t, /International University of Papua/, 'mitra yang belum final tidak ditampilkan');
+    assert.match(t, /International University of Papua/);
+});
+
+test('Tentang: logo kedua mitra tampil', () => {
+    const h = html('about');
+    assert.match(h, /alt="Logo D-Prize"/);
+    assert.match(h, /alt="Logo International University of Papua"/);
+    assert.match(h, /d-prize\.[\w-]+\.(png|webp|avif)/, 'berkas logo D-Prize dipakai');
+    assert.match(h, /international-university-of-papua\.[\w-]+\.(png|webp|avif)/, 'berkas logo IUP dipakai');
 });
 
 test('Tentang: linimasa memakai efek blur reveal untuk tahun dan target capaian', () => {
