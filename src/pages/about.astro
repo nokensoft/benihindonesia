@@ -6,6 +6,39 @@ import { orgId } from '../data/site';
 import silvia from '../assets/team/silvia.jpg';
 import frederik from '../assets/team/frederik.jpg';
 
+// Perjalanan Kami 2026–2030
+const timeline = [
+    {
+        year: '2026',
+        text: 'Penguatan metode TaRL dan perluasan cakupan pendampingan di Kabupaten Jayapura dan Kota Jayapura.',
+        linkText: 'TaRL',
+    },
+    {
+        year: '2028',
+        text: 'Replikasi program di seluruh wilayah operasi target (Biak Numfor, Sarmi, Kepulauan Yapen, Nabire, Merauke, Fakfak).',
+    },
+    {
+        year: '2030',
+        text: 'Pencapaian kemandirian komunitas lokal dalam mengelola sentra-sentra belajar literasi secara mandiri.',
+    },
+];
+
+// Mitra. Hanya mitra yang sudah final yang ditampilkan (confirmed: true).
+// Logo diambil otomatis dari src/assets/partners/<id>.(png|jpg|jpeg|webp|svg) bila berkasnya ada.
+const partners = [
+    { id: 'd-prize', name: 'D-Prize', confirmed: true },
+    { id: 'international-university-of-papua', name: 'International University of Papua', confirmed: false },
+].filter((partner) => partner.confirmed);
+
+const logoModules = import.meta.glob<ImageMetadata>('../assets/partners/*.{png,jpg,jpeg,webp,svg}', {
+    eager: true,
+    import: 'default',
+});
+const logoFor = (id: string) => {
+    const key = Object.keys(logoModules).find((k) => k.split('/').pop()!.replace(/\.[^.]+$/, '') === id);
+    return key ? logoModules[key] : undefined;
+};
+
 const page = new URL('/about/', Astro.site).href;
 const photo = async (src: ImageMetadata) =>
     new URL((await getImage({ src, width: 480, format: 'jpg' })).src, Astro.site).href;
@@ -33,38 +66,38 @@ const schema = [
 ---
 <BaseLayout
     title="Tentang Kami: Tim, Visi & Misi | Benih Indonesia"
-    description="Kenali Benih Indonesia: organisasi, tim pendiri, visi dan misi, perjalanan 2026–2030, serta mitra kami dalam memajukan literasi anak-anak Papua."
+    description="Kenali Benih Indonesia: organisasi, tim pendiri, visi dan misi, perjalanan 2026–2030, serta mitra kami dalam memajukan literasi dan numerasi anak-anak Indonesia, dimulai dari Papua."
     pageType="AboutPage"
     pageName="Tentang Benih Indonesia"
-    breadcrumb="About Us"
+    breadcrumb="Tentang"
     schema={schema}
 >
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <Breadcrumb label="About Us" />
+        <Breadcrumb label="Tentang" />
 
-        <h1 class="text-3xl font-bold text-stone-900 mb-6">About Us</h1>
+        <h1 class="text-3xl font-bold text-stone-900 mb-6">Tentang</h1>
 
-        <!-- In-page Navigation (sticky, horizontally scrollable on small screens) -->
-        <nav aria-label="On this page" data-section-nav translate="no" class="notranslate sticky top-16 lg:top-20 z-40 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 bg-stone-50/95 backdrop-blur-md border-b border-stone-200 mb-10">
+        <!-- Navigasi di halaman (menempel di atas, dapat digeser ke samping di layar kecil) -->
+        <nav aria-label="Di halaman ini" data-section-nav class="sticky top-16 lg:top-20 z-40 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 bg-stone-50/95 backdrop-blur-md border-b border-stone-200 mb-10">
             <ul class="no-scrollbar flex gap-2 overflow-x-auto py-3 text-sm">
-                <li class="shrink-0"><a href="#organization" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Organization</a></li>
-                <li class="shrink-0"><a href="#team" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Team</a></li>
-                <li class="shrink-0"><a href="#vision" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Mission &amp; Vision</a></li>
-                <li class="shrink-0"><a href="#journey" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Journey</a></li>
-                <li class="shrink-0"><a href="#partner" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Our Partner</a></li>
+                <li class="shrink-0"><a href="#organization" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Tentang Kami</a></li>
+                <li class="shrink-0"><a href="#team" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Tim Kami</a></li>
+                <li class="shrink-0"><a href="#vision" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Visi dan Misi</a></li>
+                <li class="shrink-0"><a href="#journey" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Perjalanan Kami</a></li>
+                <li class="shrink-0"><a href="#partner" class="block px-4 py-2 rounded-full border border-stone-300 bg-white text-stone-700 hover:border-brand-700 hover:text-brand-700 aria-[current=true]:bg-brand-800 aria-[current=true]:border-brand-800 aria-[current=true]:text-white">Mitra Kami</a></li>
             </ul>
         </nav>
 
         <div class="space-y-12 md:space-y-16">
             <section id="organization" class="space-y-4 scroll-mt-16">
-                <h2 class="text-2xl font-bold text-stone-900">Our Organization</h2>
+                <h2 class="text-2xl font-bold text-stone-900">Tentang Kami</h2>
                 <p class="text-stone-700 leading-relaxed">
-                    Benih Indonesia berdiri sebagai bentuk kepedulian mendalam terhadap tantangan literasi dasar di Papua. Organisasi ini berfokus pada penyediaan akses dan metode belajar literasi dan numerasi yang inklusif, relevan, serta berkelanjutan bagi anak-anak di daerah rural maupun perkotaan.
+                    Benih Indonesia berdiri sebagai bentuk kepedulian mendalam terhadap tantangan pendidikan dasar di Indonesia yang dimulai dari Papua. Organisasi ini berfokus pada penyediaan akses dan metode belajar literasi dan numerasi yang inklusif, relevan, serta berkelanjutan bagi anak-anak di daerah perkotaan maupun pedesaan.
                 </p>
             </section>
 
             <section id="team" class="space-y-6 scroll-mt-16">
-                <h2 class="text-2xl font-bold text-stone-900">Our Team</h2>
+                <h2 class="text-2xl font-bold text-stone-900">Tim Kami</h2>
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Silvia Wambukomo -->
                     <article id="silvia-wambukomo" class="p-5 sm:p-6 bg-white border border-stone-200 rounded-lg flex flex-col gap-4">
@@ -107,44 +140,54 @@ const schema = [
             </section>
 
             <section id="vision" class="space-y-6 scroll-mt-16">
-                <h2 class="text-2xl font-bold text-stone-900">Our Mission and Vision</h2>
+                <h2 class="text-2xl font-bold text-stone-900">Visi dan Misi</h2>
                 <div class="space-y-4">
                     <div>
-                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Vision</h3>
-                        <p class="text-stone-700">Terwujudnya anak-anak Papua yang mahir berliterasi dan bernumerasi sebagai landasan utama untuk meraih potensi maksimal mereka.</p>
+                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Visi</h3>
+                        <p class="text-stone-700">Menjadi lembaga yang berkontribusi dalam peningkatan literasi dan numerasi, penguatan kapasitas pengajar, serta pemberdayaan komunitas lokal demi terciptanya lingkungan belajar yang berkelanjutan.</p>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Mission</h3>
-                        <p class="text-stone-700">Menyediakan program literasi dan numerasi yang efektif, melatih pendidik lokal, serta menggalang kolaborasi komunitas demi terciptanya lingkungan belajar yang berkelanjutan.</p>
+                        <h3 class="text-xl font-semibold text-stone-900 mb-2">Misi</h3>
+                        <p class="text-stone-700">Memaksimalkan potensi setiap anak Indonesia melalui penguatan fondasi belajar.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="journey" class="space-y-4 scroll-mt-16">
-                <h2 class="text-2xl font-bold text-stone-900">Our Journey: Timeline 2026 - 2030</h2>
-                <ol class="space-y-4 border-l-2 border-stone-200 pl-6 ml-2">
-                    <li>
-                        <span class="text-sm font-bold text-brand-700">2026</span>
-                        <p class="text-stone-700">Penguatan metode <a href="/resources/" class="underline decoration-stone-300 hover:text-brand-700">TaRL</a> dan perluasan cakupan pendampingan di Jayapura Regency dan Jayapura City.</p>
-                    </li>
-                    <li>
-                        <span class="text-sm font-bold text-brand-700">2028</span>
-                        <p class="text-stone-700">Replikasi program di seluruh wilayah operasional target (Biak Numfor, Sarmi, Yapen, Nabire, Merauke, Fak Fak).</p>
-                    </li>
-                    <li>
-                        <span class="text-sm font-bold text-brand-700">2030</span>
-                        <p class="text-stone-700">Pencapaian kemandirian komunitas lokal dalam mengelola sentra-sentra belajar literasi secara mandiri.</p>
-                    </li>
+            <section id="journey" class="space-y-6 scroll-mt-16">
+                <h2 class="text-2xl font-bold text-stone-900">Perjalanan Kami: 2026–2030</h2>
+                <!-- Tahun dan target capaian muncul dengan efek blur reveal saat masuk layar -->
+                <ol class="space-y-10 border-l-2 border-brand-100 pl-6 sm:pl-8 ml-2" data-timeline>
+                    {timeline.map((item) => (
+                        <li id={`journey-${item.year}`} class="relative" data-timeline-item>
+                            <span class="absolute -left-[2.2rem] sm:-left-[2.7rem] top-2 h-4 w-4 rounded-full border-4 border-white bg-brand-700 shadow" aria-hidden="true"></span>
+                            <p data-reveal="blur" class="text-4xl sm:text-5xl font-bold text-brand-700 leading-none">{item.year}</p>
+                            <p data-reveal="blur" style="--reveal-delay:180ms" class="mt-3 text-lg text-stone-700 max-w-2xl">
+                                {item.linkText ? (
+                                    <>
+                                        {item.text.split(item.linkText)[0]}<a href="/resources/" class="underline decoration-stone-300 hover:text-brand-700">{item.linkText}</a>{item.text.split(item.linkText).slice(1).join(item.linkText)}
+                                    </>
+                                ) : item.text}
+                            </p>
+                        </li>
+                    ))}
                 </ol>
+                <p class="text-stone-700"><a href="/stories/#peta" class="font-medium text-brand-700 hover:underline">Lihat peta wilayah operasi</a>.</p>
             </section>
 
             <section id="partner" class="space-y-4 scroll-mt-16">
-                <h2 class="text-2xl font-bold text-stone-900">Our Partner</h2>
-                <div class="p-6 bg-white border border-stone-200 rounded-lg">
-                    <h3 class="text-xl font-bold text-stone-900 mb-2">International University of Papua</h3>
-                    <p class="text-stone-700">Mitra strategis dalam riset pendidikan, penyediaan tenaga akademik, serta pengembangan kepemimpinan pemuda di bidang pendidikan literasi.</p>
+                <h2 class="text-2xl font-bold text-stone-900">Mitra Kami</h2>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    {partners.map((partner) => {
+                        const logo = logoFor(partner.id);
+                        return (
+                            <div class="p-6 bg-white border border-stone-200 rounded-lg flex items-center gap-4">
+                                {logo && <Image src={logo} alt={`Logo ${partner.name}`} height={64} class="h-16 w-auto max-w-[8rem] object-contain" />}
+                                <h3 class="text-xl font-bold text-stone-900" translate="no">{partner.name}</h3>
+                            </div>
+                        );
+                    })}
                 </div>
-                <p class="text-stone-700">Tertarik menjadi mitra? <a href="/get-involved/" class="font-medium text-brand-700 hover:underline">Daftar sebagai Collaborating Partner</a>.</p>
+                <p class="text-stone-700">Tertarik menjadi mitra? <a href="/get-involved/" class="font-medium text-brand-700 hover:underline">Daftar sebagai Mitra Kolaborasi</a>.</p>
             </section>
         </div>
     </div>

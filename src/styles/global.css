@@ -102,6 +102,243 @@ font[style] {
     box-shadow: none !important;
 }
 
+/* ------------------------------------------------------------------ *
+ * Efek muncul saat di-scroll (blur reveal / slide-up).
+ * Konten hanya disembunyikan bila JavaScript aktif (kelas .js pada <html>),
+ * sehingga halaman tetap terbaca penuh tanpa JavaScript.
+ * ------------------------------------------------------------------ */
+.js [data-reveal] {
+    opacity: 0;
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal='blur'] {
+    filter: blur(16px);
+    transform: translateY(20px) scale(0.97);
+}
+
+.js [data-reveal='up'] {
+    transform: translateY(40px);
+}
+
+.js [data-reveal='left'] {
+    transform: translateX(-48px);
+}
+
+.js [data-reveal='right'] {
+    transform: translateX(48px);
+}
+
+.js [data-reveal].is-revealed {
+    opacity: 1;
+    filter: none;
+    transform: none;
+}
+
+/* Kartu yang "mengambang": melayang pelan, terangkat saat disorot.
+ * Animasi memakai properti `translate` dan hover memakai `transform`,
+ * sehingga keduanya bisa berjalan bersamaan. */
+.lift-card {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    animation: lift-float 6s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 20px -12px rgb(22 101 52 / 0.25);
+}
+
+.lift-card:hover,
+.lift-card:focus-within {
+    transform: translateY(-10px);
+    border-color: var(--color-brand-700);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.04), 0 28px 40px -16px rgb(22 101 52 / 0.45);
+}
+
+@keyframes lift-float {
+    0%,
+    100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -7px;
+    }
+}
+
+/* Flip card (kartu SDG) */
+.flip-card {
+    perspective: 1200px;
+}
+
+.flip-card__inner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.flip-card[aria-pressed='true'] .flip-card__inner {
+    transform: rotateY(180deg);
+}
+
+/* Perangkat dengan mouse: kartu juga berbalik saat disorot */
+@media (hover: hover) and (pointer: fine) {
+    .flip-card:hover .flip-card__inner {
+        transform: rotateY(180deg);
+    }
+}
+
+.flip-card__face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.flip-card__back {
+    transform: rotateY(180deg);
+}
+
+/* Banner beranda (slider) */
+.hero-slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 0s linear 1s;
+}
+
+.hero-slide[data-active='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease, visibility 0s;
+}
+
+.hero-slide__bg {
+    transform: scale(1);
+    transition: transform 8s ease-out;
+}
+
+.hero-slide[data-active='true'] .hero-slide__bg {
+    transform: scale(1.06);
+}
+
+.hero-slide__stack > * {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.hero-slide[data-active='true'] .hero-slide__stack > * {
+    opacity: 1;
+    transform: none;
+}
+
+.hero-slide[data-active='true'] .hero-slide__stack > :nth-child(2) { transition-delay: 0.15s; }
+.hero-slide[data-active='true'] .hero-slide__stack > :nth-child(3) { transition-delay: 0.3s; }
+.hero-slide[data-active='true'] .hero-slide__stack > :nth-child(4) { transition-delay: 0.45s; }
+
+/* Tanpa JavaScript: isi slide pertama langsung tampil */
+html:not(.js) .hero-slide__stack > * {
+    opacity: 1;
+    transform: none;
+}
+
+/* Tanpa JavaScript: hanya slide pertama yang tampil, tanpa animasi */
+html:not(.js) .hero-slide:first-child {
+    opacity: 1;
+    visibility: visible;
+}
+
+html:not(.js) [data-hero-controls] {
+    display: none;
+}
+
+/* Peta Indonesia -> Papua digerakkan scroll.
+ * Tanpa JavaScript atau dengan "reduce motion": peta statis di keadaan akhir. */
+.scroll-map__stage {
+    position: relative;
+    height: min(80svh, 46rem);
+    min-height: 28rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .js .scroll-map {
+        height: 340vh;
+    }
+
+    .js .scroll-map__stage {
+        position: sticky;
+        top: 4rem;
+        height: calc(100svh - 4rem);
+    }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .js .scroll-map__stage {
+        top: 5rem;
+        height: calc(100svh - 5rem);
+    }
+}
+
+.scroll-map__label {
+    font-size: calc(var(--s, 1.15) * 13px);
+    font-weight: 700;
+    fill: #1c1917;
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: calc(var(--s, 1.15) * 3.5px);
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.scroll-map__neighbor {
+    font-size: calc(var(--s, 1.15) * 12px);
+    font-style: italic;
+    letter-spacing: 0.08em;
+    fill: #6b7280;
+    pointer-events: none;
+}
+
+.scroll-map__step {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+}
+
+.scroll-map__step[data-active='true'] {
+    opacity: 1;
+    transform: none;
+}
+
+.scroll-map__ping {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: map-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes map-ping {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+    80%,
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Tanpa JavaScript penanda awal tidak perlu tampil */
+html:not(.js) [data-map-beacon],
+.scroll-map[data-static='true'] [data-map-beacon] {
+    display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -111,6 +348,31 @@ font[style] {
     *::before,
     *::after {
         transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
         animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+
+    .js [data-reveal],
+    .js [data-reveal='blur'],
+    .js [data-reveal='up'],
+    .js [data-reveal='left'],
+    .js [data-reveal='right'] {
+        opacity: 1;
+        filter: none;
+        transform: none;
+    }
+
+    .lift-card {
+        animation: none;
+    }
+
+    .hero-slide__bg,
+    .hero-slide[data-active='true'] .hero-slide__bg {
+        transform: none;
+    }
+
+    .flip-card__inner {
+        transition: none;
     }
 }

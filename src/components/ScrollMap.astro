@@ -1,0 +1,190 @@
+---
+// Peta Indonesia (hijau) yang memperbesar ke delapan wilayah sasaran di Papua
+// saat halaman di-scroll. Perilaku: src/scripts/scroll-map.js; data: src/data/map.ts
+// (dihasilkan oleh scripts/build-map.mjs). Seluruh peta menaut ke Perjalanan Kami 2026–2030.
+import { indonesiaPath, papuaRegencyPath, mapTargets, mapBounds } from '../data/map';
+
+const colors = {
+    land: '#3f9d63',
+    start: '#2563eb', // lokasi awal intervensi (biru)
+    city: '#d9b88f', // Kota Jayapura (coklat muda)
+    next: '#facc15', // enam lokasi lainnya (kuning)
+};
+
+// Satuan peta: 1 = 0,01 derajat. Posisi label disetel manual agar tidak saling menimpa.
+interface Label {
+    text: string;
+    x: number;
+    y: number;
+    anchor?: 'start' | 'middle' | 'end';
+    leader?: [number, number];
+}
+const labels: Record<string, Label> = {
+    'kabupaten-jayapura': { text: 'Kab. Jayapura', x: 4600, y: 1052, anchor: 'middle' },
+    'kota-jayapura': { text: 'Kota Jayapura', x: 4742, y: 950, anchor: 'start', leader: [4690, 925] },
+    'kabupaten-sarmi': { text: 'Sarmi', x: 4505, y: 906, anchor: 'middle' },
+    'kabupaten-kepulauan-yapen': { text: 'Kep. Yapen', x: 4210, y: 878, anchor: 'middle' },
+    'kabupaten-biak-numfor': { text: 'Biak Numfor', x: 4160, y: 704, anchor: 'middle' },
+    'kabupaten-nabire': { text: 'Nabire', x: 4146, y: 1088, anchor: 'middle' },
+    'kabupaten-fak-fak': { text: 'Fakfak', x: 3874, y: 1088, anchor: 'middle' },
+    'kabupaten-merauke': { text: 'Merauke', x: 4535, y: 1466, anchor: 'middle' },
+};
+
+// Sentani (Kabupaten Jayapura): lokasi awal intervensi
+const sentani = { x: 4650, y: 906, label: { text: 'Sentani', x: 4742, y: 880, leader: [4655, 902] as [number, number] } };
+
+// Urutan kemunculan wilayah saat zoom: Kabupaten Jayapura, Kota Jayapura, lalu enam lainnya
+const timing: Record<string, [number, number]> = {
+    'kabupaten-jayapura': [0.3, 0.55],
+    'kota-jayapura': [0.4, 0.62],
+};
+const range = (id: string, i: number): [number, number] => timing[id] ?? [0.5 + (i % 6) * 0.04, 0.78 + (i % 6) * 0.03];
+
+// Beri ruang di tepi agar penanda di Papua (paling timur) tidak terpotong
+const [ix0, iy0, ix1, iy1] = mapBounds.indonesia;
+const startBox = [ix0 - 160, iy0 - 80, ix1 + 160, iy1 + 80];
+// Ruang kanan cukup lebar agar label "Kota Jayapura" muat di layar sempit
+const endBox: [number, number, number, number] = [3740, 650, 5150, 1600];
+const box = (b: number[]) => b.join(' ');
+const endView = (() => {
+    // Tampilan awal tanpa JavaScript = keadaan akhir (aspek 16:10)
+    const w = endBox[2] - endBox[0];
+    const h = endBox[3] - endBox[1];
+    const aspect = 16 / 10;
+    const vw = w / h < aspect ? h * aspect : w;
+    const vh = vw / aspect;
+    const cx = (endBox[0] + endBox[2]) / 2;
+    const cy = (endBox[1] + endBox[3]) / 2;
+    return [cx - vw / 2, cy - vh / 2, vw, vh].map((n) => n.toFixed(0)).join(' ');
+})();
+
+const jayapura = mapTargets.find((t) => t.id === 'kabupaten-jayapura')!;
+---
+<section
+    id="peta"
+    data-scroll-map
+    data-bbox-start={box(startBox)}
+    data-bbox-end={box(endBox)}
+    class="scroll-map relative"
+    aria-labelledby="peta-heading"
+>
+    <div data-map-stage class="scroll-map__stage overflow-hidden bg-[#eaf3ee] border-y border-stone-200">
+        <!-- Peta: seluruhnya menaut ke linimasa 2026–2030 -->
+        <a
+            href="/about/#journey"
+            class="absolute inset-0 block focus-visible:outline-offset-[-4px]"
+            aria-label="Peta wilayah operasi Benih Indonesia. Lihat Perjalanan Kami 2026–2030"
+        >
+            <svg
+                data-map-svg
+                viewBox={endView}
+                preserveAspectRatio="xMidYMid meet"
+                class="h-full w-full select-none"
+                role="img"
+                aria-labelledby="peta-title peta-desc"
+                focusable="false"
+            >
+                <title id="peta-title">Peta wilayah operasi Benih Indonesia</title>
+                <desc id="peta-desc">
+                    Peta Indonesia berwarna hijau. Kabupaten Jayapura (termasuk Sentani) berwarna biru sebagai lokasi awal intervensi,
+                    Kota Jayapura berwarna coklat muda, dan enam wilayah lain di Papua berwarna kuning: Biak Numfor, Sarmi,
+                    Kepulauan Yapen, Nabire, Merauke, dan Fakfak.
+                </desc>
+                <defs>
+                    <pattern id="peta-arsir" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                        <line x1="0" y1="0" x2="0" y2="9" stroke="#fff" stroke-opacity="0.5" stroke-width="2.5"></line>
+                    </pattern>
+                </defs>
+
+                <!-- Indonesia -->
+                <path d={indonesiaPath} fill={colors.land} stroke="#fff" stroke-width="0.8" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+
+                <!-- Batas kabupaten di Papua (muncul saat sudah dekat) -->
+                <g data-map-regencies style="opacity:1">
+                    <path d={papuaRegencyPath} fill="none" stroke="#fff" stroke-opacity="0.75" stroke-width="0.8" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+                </g>
+
+                <!-- Delapan wilayah sasaran -->
+                {mapTargets.map((t, i) => {
+                    const [from, to] = range(t.id, i);
+                    return (
+                        <g data-map-target data-from={from} data-to={to} data-role={t.role} data-name={t.name} style="opacity:1">
+                            <path d={t.d} fill={colors[t.role]} stroke="#fff" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+                            <path d={t.d} fill="url(#peta-arsir)" stroke="none"></path>
+                        </g>
+                    );
+                })}
+
+                <!-- Penanda awal: berdenyut di Papua saat peta masih menampilkan seluruh Indonesia -->
+                <g data-map-beacon aria-hidden="true">
+                    <circle data-map-dot data-beacon data-r="8" cx={jayapura.center[0]} cy={jayapura.center[1]} fill="#2563eb" stroke="#fff" stroke-width="1.5" vector-effect="non-scaling-stroke" r="30"></circle>
+                    <circle data-map-dot data-beacon data-r="8" class="scroll-map__ping" cx={jayapura.center[0]} cy={jayapura.center[1]} fill="none" stroke="#2563eb" stroke-width="2" vector-effect="non-scaling-stroke" r="30"></circle>
+                </g>
+
+                <!-- Label -->
+                {mapTargets.map((t) => {
+                    const l = labels[t.id];
+                    if (!l) return null;
+                    return (
+                        <g data-map-label translate="no" class="notranslate" style="opacity:1">
+                            {l.leader && <line x1={l.leader[0]} y1={l.leader[1]} x2={l.x - 4} y2={l.y - 4} stroke="#1c1917" stroke-width="1" vector-effect="non-scaling-stroke"></line>}
+                            <text class="scroll-map__label" x={l.x} y={l.y} text-anchor={l.anchor ?? 'middle'}>{l.text}</text>
+                        </g>
+                    );
+                })}
+                <g data-map-label style="opacity:1" aria-hidden="true">
+                    <text class="scroll-map__neighbor" x="4790" y="1230" text-anchor="start">Papua Nugini</text>
+                </g>
+                <g data-map-label translate="no" class="notranslate" style="opacity:1">
+                    <line x1={sentani.label.leader[0]} y1={sentani.label.leader[1]} x2={sentani.label.x - 4} y2={sentani.label.y - 4} stroke="#1c1917" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+                    <circle data-map-dot data-r="4.5" cx={sentani.x} cy={sentani.y} fill="#fff" stroke="#1d4ed8" stroke-width="2" vector-effect="non-scaling-stroke" r="5"></circle>
+                    <text class="scroll-map__label" x={sentani.label.x} y={sentani.label.y} text-anchor="start">{sentani.label.text}</text>
+                </g>
+            </svg>
+        </a>
+
+        <!-- Keterangan bertahap -->
+        <div class="pointer-events-none absolute left-4 top-4 sm:left-6 sm:top-6 max-w-[17rem] sm:max-w-sm">
+            <div class="grid">
+                <div data-map-step data-active="false" class="scroll-map__step rounded-lg bg-white/90 backdrop-blur p-4 shadow">
+                    <p class="text-xs font-bold uppercase tracking-widest text-brand-700">Indonesia</p>
+                    <p class="mt-1 text-sm sm:text-base text-stone-800">Benih Indonesia bekerja untuk literasi dan numerasi anak-anak di seluruh Indonesia.</p>
+                </div>
+                <div data-map-step data-active="false" class="scroll-map__step rounded-lg bg-white/90 backdrop-blur p-4 shadow">
+                    <p class="text-xs font-bold uppercase tracking-widest text-brand-700">Dimulai dari Papua</p>
+                    <p class="mt-1 text-sm sm:text-base text-stone-800">Langkah pertama kami dimulai di Kabupaten Jayapura, Papua.</p>
+                </div>
+                <div data-map-step data-active="true" class="scroll-map__step rounded-lg bg-white/90 backdrop-blur p-4 shadow">
+                    <p class="text-xs font-bold uppercase tracking-widest text-brand-700">Delapan wilayah</p>
+                    <p class="mt-1 text-sm sm:text-base text-stone-800">Dari Kabupaten Jayapura dan Kota Jayapura hingga enam wilayah lain di Papua.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legenda -->
+        <div class="absolute inset-x-4 bottom-[4.75rem] sm:inset-x-auto sm:left-6 sm:bottom-6 sm:max-w-md rounded-lg bg-white/90 backdrop-blur p-3 sm:p-4 shadow text-xs sm:text-sm text-stone-800">
+            <p class="sr-only">Keterangan warna peta</p>
+            <ul class="space-y-1.5">
+                <li class="flex items-start gap-2"><span class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-white shadow" style={`background:${colors.start}`}></span><span><strong>Biru:</strong> Kabupaten Jayapura (Sentani), lokasi awal intervensi, 2026</span></li>
+                <li class="flex items-start gap-2"><span class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-white shadow" style={`background:${colors.city}`}></span><span><strong>Coklat muda:</strong> Kota Jayapura, 2026</span></li>
+                <li class="flex items-start gap-2"><span class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-white shadow" style={`background:${colors.next}`}></span><span><strong>Kuning:</strong> Biak Numfor, Sarmi, Kepulauan Yapen, Nabire, Merauke, dan Fakfak, 2028</span></li>
+            </ul>
+        </div>
+
+        <!-- Tautan ke linimasa -->
+        <a
+            href="/about/#journey"
+            class="absolute inset-x-4 bottom-4 sm:inset-x-auto sm:right-6 sm:bottom-6 inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2 rounded-full bg-brand-800 text-white text-sm font-semibold shadow hover:bg-brand-700 transition-colors"
+        >
+            Lihat Perjalanan Kami 2026–2030
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+
+        <!-- Indikator scroll -->
+        <div class="pointer-events-none absolute right-2 top-1/4 h-1/2 w-1 rounded bg-stone-300/70 hidden sm:block" aria-hidden="true">
+            <div data-map-progress class="h-full w-full origin-top rounded bg-brand-700" style="transform:scaleY(1)"></div>
+        </div>
+    </div>
+
+    <h2 id="peta-heading" class="sr-only">Peta wilayah operasi</h2>
+</section>

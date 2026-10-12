@@ -6,7 +6,7 @@
 
     function setMenu(open) {
         toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
         toggle.querySelector('[data-icon-open]').classList.toggle('hidden', open);
         toggle.querySelector('[data-icon-close]').classList.toggle('hidden', !open);
         menu.classList.toggle('hidden', !open);

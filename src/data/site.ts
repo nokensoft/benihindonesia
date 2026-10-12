@@ -2,7 +2,10 @@
 
 export const site = {
     name: 'Benih Indonesia',
-    tagline: 'Better Literacy. Brighter Futures',
+    tagline: 'Better Education. Brighter Future',
+    slogan: 'Teach with Compassion. Learn with Determination',
+    // Cakupan wilayah operasi
+    scope: 'Indonesia, dimulai di Kabupaten Jayapura, Papua.',
     url: 'https://benihindonesia.org',
     email: 'info@benihindonesia.org',
     whatsapp: '6281248133667',
@@ -27,18 +30,18 @@ export const site = {
 
 export const fullAddress = `${site.address.street}, ${site.address.locality}, ${site.address.regency}, ${site.address.region} ${site.address.postalCode}, ${site.address.country}`;
 
-// Navigation stays in English and is excluded from Google Translate.
+// Navigasi berbahasa Indonesia; versi Inggris dihasilkan oleh Google Translate.
 export const nav = [
-    { href: '/', label: 'Home' },
-    { href: '/about/', label: 'About Us' },
-    { href: '/programmes/', label: 'Programmes' },
-    { href: '/impact/', label: 'Impact' },
-    { href: '/stories/', label: 'Stories' },
-    { href: '/resources/', label: 'Resources' },
-    { href: '/contact/', label: 'Contact' },
+    { href: '/', label: 'Beranda' },
+    { href: '/about/', label: 'Tentang' },
+    { href: '/programmes/', label: 'Program' },
+    { href: '/impact/', label: 'Dampak' },
+    { href: '/stories/', label: 'Cerita' },
+    { href: '/resources/', label: 'Bahan Ajar' },
+    { href: '/contact/', label: 'Kontak' },
 ];
 
-export const cta = { href: '/get-involved/', label: 'Get Involved' };
+export const cta = { href: '/get-involved/', label: 'Bergabung Bersama Kami' };
 
 export const orgId = `${site.url}/#organization`;
 export const websiteId = `${site.url}/#website`;

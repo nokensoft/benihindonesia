@@ -1,31 +1,96 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import sdg1 from '../assets/sdg/sdg-01.png';
+import sdg4 from '../assets/sdg/sdg-04.png';
+import sdg10 from '../assets/sdg/sdg-10.png';
+
+// Sisi depan kartu = gambar SDG resmi; sisi belakang = keterangan.
+// Sumber gambar: The Global Goals (https://www.globalgoals.org)
+const sdgs = [
+    {
+        number: 1,
+        title: 'Tanpa Kemiskinan',
+        image: sdg1,
+        color: '#e5243b',
+        text: 'Mengentaskan segala bentuk kemiskinan melalui peningkatan kualitas hidup anak-anak, pemuda, dan rumah tangga yang berada di bawah garis kemiskinan.',
+    },
+    {
+        number: 4,
+        title: 'Pendidikan Berkualitas',
+        image: sdg4,
+        color: '#c5192d',
+        text: 'Menjamin pendidikan berkualitas dan pembelajaran sepanjang hayat untuk semua dengan meningkatkan kemampuan membaca dan berhitung peserta didik.',
+    },
+    {
+        number: 10,
+        title: 'Berkurangnya Kesenjangan',
+        image: sdg10,
+        color: '#dd1367',
+        text: 'Mengurangi kesenjangan atau ketimpangan di dalam dan antarnegara tanpa memandang kelompok usia, jenis kelamin, kondisi sosial-ekonomi, dan sebagainya.',
+    },
+];
 ---
 <BaseLayout
     title="Program Literasi & Numerasi TaRL di Papua | Benih Indonesia"
-    description="Program unggulan Benih Indonesia menerapkan Teaching at the Right Level (TaRL) untuk literasi dan numerasi anak Papua, mendukung SDG 1, SDG 4, dan SDG 10."
+    description="Program unggulan Benih Indonesia menerapkan Teaching at the Right Level (TaRL) untuk literasi dan numerasi anak-anak Indonesia, dimulai dari Papua, mendukung SDG 1, SDG 4, dan SDG 10."
     pageType="WebPage"
     pageName="Program Literasi dan Numerasi Benih Indonesia"
-    breadcrumb="Programmes"
+    breadcrumb="Program"
 >
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <Breadcrumb label="Programmes" />
+        <Breadcrumb label="Program" />
 
-        <h1 class="text-3xl font-bold text-stone-900 mb-8">Programmes</h1>
+        <h1 class="text-3xl font-bold text-stone-900 mb-8">Program</h1>
 
         <div class="space-y-12">
             <section>
-                <h2 class="text-2xl font-bold text-stone-900 mb-4">Featured Programmes</h2>
-                <p class="text-stone-700 leading-relaxed mb-6">
-                    Penerapan pembelajaran berbasis tingkat kemampuan anak melalui pendekatan <a href="/resources/" class="underline decoration-stone-300 hover:text-brand-700">Teaching at the Right Level (TaRL)</a>, yang secara langsung mendukung pencapaian UN Sustainable Development Goals (SDG 1: No Poverty, SDG 4: Quality Education, dan SDG 10: Reduced Inequalities).
+                <h2 class="text-2xl font-bold text-stone-900 mb-4">Program Unggulan</h2>
+                <p class="text-stone-700 leading-relaxed mb-8">
+                    Penerapan pembelajaran berbasis tingkat kemampuan anak melalui pendekatan <a href="/resources/" class="underline decoration-stone-300 hover:text-brand-700">Teaching at the Right Level (TaRL)</a>, yang secara langsung mendukung pencapaian Tujuan Pembangunan Berkelanjutan PBB (SDG 1: Tanpa Kemiskinan, SDG 4: Pendidikan Berkualitas, dan SDG 10: Berkurangnya Kesenjangan).
+                </p>
+
+                <ul class="grid md:grid-cols-3 gap-5 md:gap-6" aria-label="Tujuan Pembangunan Berkelanjutan yang didukung">
+                    {sdgs.map((sdg, i) => (
+                        <li data-reveal="up" style={`--reveal-delay:${i * 140}ms`}>
+                            <button
+                                type="button"
+                                class="flip-card relative block w-full aspect-[6/5] rounded-xl text-left shadow-md focus-visible:outline-offset-4"
+                                aria-pressed="false"
+                                aria-describedby="sdg-hint"
+                            >
+                                <span class="flip-card__inner block">
+                                    <span class="flip-card__face flip-card__front block bg-stone-100">
+                                        <Image
+                                            src={sdg.image}
+                                            alt={`SDG ${sdg.number}: ${sdg.title}`}
+                                            width={600}
+                                            class="h-full w-full object-cover"
+                                        />
+                                    </span>
+                                    <span
+                                        class="flip-card__face flip-card__back flex flex-col justify-center gap-2 p-5 sm:p-6 text-white"
+                                        style={`background:${sdg.color}`}
+                                    >
+                                        <span class="block text-sm font-bold uppercase tracking-widest opacity-90">SDG {sdg.number}: {sdg.title}</span>
+                                        <span class="block text-sm sm:text-base leading-relaxed">{sdg.text}</span>
+                                    </span>
+                                </span>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+                <p id="sdg-hint" class="mt-4 text-sm text-stone-600">
+                    Arahkan kursor atau ketuk kartu untuk membaca keterangannya. Sumber:{' '}
+                    <a href="https://www.globalgoals.org/" target="_blank" rel="noopener noreferrer" class="font-medium text-brand-700 hover:underline" translate="no">The Global Goals<span class="sr-only"> (tab baru)</span></a>.
                 </p>
             </section>
 
             <section class="border-t border-stone-200 pt-8">
-                <h2 class="text-2xl font-bold text-stone-900 mb-4">Supporting Programmes</h2>
+                <h2 class="text-2xl font-bold text-stone-900 mb-4">Program Pendukung</h2>
                 <p class="text-stone-700 leading-relaxed">
-                    Program pendukung pelatihan guru lokal, penyediaan sudut baca masyarakat, serta workshop numerasi dasar berbasis aktivitas sehari-hari. (Placeholder update untuk inisiatif mendalam mendatang).
+                    Program pendukung pelatihan guru lokal, penyediaan sudut baca masyarakat, serta workshop literasi dan numerasi berbasis aktivitas sehari-hari. (Placeholder update untuk inisiatif mendalam mendatang).
                 </p>
             </section>
 

@@ -1,9 +1,9 @@
 ---
-import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSlider from '../components/HeroSlider.astro';
 import { site, orgId, websiteId } from '../data/site';
-import hero from '../assets/hero1.png';
 
+// Wilayah sasaran 2026–2030 (untuk data terstruktur; peta lengkap ada di halaman Cerita)
 const regencies = [
     'Kabupaten Jayapura',
     'Kota Jayapura',
@@ -23,7 +23,7 @@ const schema = [
         url: `${site.url}/`,
         logo: `${site.url}/img/brand/logo-512.png`,
         slogan: site.tagline,
-        description: 'Organisasi nirlaba yang berfokus pada peningkatan kemampuan literasi dan numerasi dasar anak-anak di tanah Papua melalui pendekatan berbasis komunitas.',
+        description: 'Organisasi nirlaba untuk literasi dan numerasi anak-anak di Indonesia, dimulai dari Papua, melalui pendekatan berbasis komunitas.',
         email: site.email,
         address: {
             '@type': 'PostalAddress',
@@ -38,7 +38,10 @@ const schema = [
             hasMap: site.mapUrl,
             geo: { '@type': 'GeoCoordinates', latitude: site.geo.latitude, longitude: site.geo.longitude },
         },
-        areaServed: regencies.map((name) => ({ '@type': 'AdministrativeArea', name })),
+        areaServed: [
+            { '@type': 'Country', name: 'Indonesia' },
+            ...regencies.map((name) => ({ '@type': 'AdministrativeArea', name })),
+        ],
         knowsAbout: ['Literasi', 'Numerasi', 'Teaching at the Right Level', 'Pendidikan Papua'],
         founder: [
             { '@id': `${site.url}/about/#silvia-wambukomo` },
@@ -56,80 +59,67 @@ const schema = [
         publisher: { '@id': orgId },
     },
 ];
+
+const explore = [
+    { href: '/programmes/', title: 'Program', text: 'Pembelajaran berbasis tingkat kemampuan anak melalui pendekatan Teaching at the Right Level (TaRL).' },
+    { href: '/impact/', title: 'Dampak', text: 'Kerangka 3Cs (Clarity, Confidence, Consistency) dan penerima manfaat program kami.' },
+    { href: '/stories/', title: 'Cerita', text: 'Kisah pembelajaran yang berakar pada budaya, bahasa, dan kuliner Papua.' },
+    { href: '/resources/', title: 'Bahan Ajar', text: 'Metode pengajaran Teaching at the Right Level (TaRL) yang kami terapkan.' },
+];
 ---
 <BaseLayout
     title={`${site.name} – ${site.tagline}`}
-    description="Benih Indonesia adalah organisasi nirlaba yang meningkatkan literasi dan numerasi dasar anak-anak di Papua melalui pendekatan berbasis komunitas dan metode TaRL."
+    description="Benih Indonesia adalah organisasi nirlaba untuk literasi dan numerasi anak-anak di Indonesia, dimulai dari Papua, melalui pembelajaran berbasis tingkat kemampuan anak (TaRL)."
     schema={schema}
 >
-    <!-- Hero: the artwork already contains the headline, copy and buttons -->
-    <section aria-labelledby="hero-title" class="bg-stone-100">
-        <h1 id="hero-title" class="sr-only">Benih Indonesia – Better Literacy. Brighter Futures.</h1>
-        <div class="relative mx-auto max-w-[1983px]">
-            <Picture
-                src={hero}
-                formats={['avif', 'webp']}
-                fallbackFormat="jpg"
-                widths={[800, 1200, 1600, 1983]}
-                sizes="(min-width: 1983px) 1983px, 100vw"
-                alt="Ilustrasi anak-anak Papua memandang danau dan peta wilayah operasional Benih Indonesia, bertuliskan: Better Literacy. Brighter Futures. Teach the lake. Grow the forest. Benih Indonesia is a non-profit organisation providing foundational literacy and numeracy skills to underserved school students in Papua, helping them learn at the right level and build a brighter future. 8 Regencies: Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak."
-                loading="eager"
-                fetchpriority="high"
-                pictureAttributes={{ class: 'block' }}
-                class="block w-full h-auto"
-            />
-            <!-- Invisible clickable areas over the buttons drawn in the artwork -->
-            <a href="/programmes/" translate="no" class="notranslate absolute left-[6.3%] top-[56.3%] w-[13.3%] h-[6.4%] rounded-full" aria-label="Our Programmes"></a>
-            <a href="/about/" translate="no" class="notranslate absolute left-[20.5%] top-[56.3%] w-[9.5%] h-[6.4%] rounded-full" aria-label="Learn More"></a>
-        </div>
-    </section>
+    <HeroSlider />
 
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 md:py-20">
-        <div class="space-y-10 md:space-y-12">
-            <div>
-                <h2 class="text-xl font-bold text-stone-900 mb-6">Operational Regencies</h2>
-                <p class="text-stone-700 mb-6">Jayapura Regency, Jayapura City, Biak Numfor, Sarmi, Yapen Island, Nabire, Merauke, Fak Fak</p>
+        <div class="space-y-10 md:space-y-14">
+            <!-- Cakupan wilayah operasi -->
+            <div data-reveal="blur">
+                <h2 class="text-xl font-bold text-stone-900 mb-4">Cakupan Wilayah Operasi</h2>
+                <p class="text-stone-700 text-lg">{site.scope}</p>
 
-                <div class="grid md:grid-cols-2 gap-4 md:gap-8 pt-2 md:pt-4">
+                <div class="grid md:grid-cols-2 gap-4 md:gap-8 pt-6">
                     <div class="p-6 bg-white border border-stone-200 rounded-lg">
-                        <h3 class="text-lg font-bold text-stone-900 mb-2">Better Learning</h3>
-                        <p class="text-stone-600">Mengimplementasikan sistem pembelajaran kontekstual yang disesuaikan dengan tingkat kemampuan anak-anak di Papua.</p>
+                        <h3 class="text-lg font-bold text-stone-900 mb-2" translate="no">Better Learning</h3>
+                        <p class="text-stone-600">Memperkuat kemampuan literasi dan numerasi anak-anak Indonesia melalui pembelajaran kontekstual yang disesuaikan dengan tingkat kemampuan anak yang dimulai di Papua.</p>
                     </div>
                     <div class="p-6 bg-white border border-stone-200 rounded-lg">
-                        <h3 class="text-lg font-bold text-stone-900 mb-2">Stronger Communities</h3>
+                        <h3 class="text-lg font-bold text-stone-900 mb-2" translate="no">Stronger Communities</h3>
                         <p class="text-stone-600">Mendorong keterlibatan aktif pemuda lokal, pengajar, dan masyarakat sekitar untuk menciptakan ekosistem pendidikan berkelanjutan.</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Metode Kami -->
+            <div class="pt-10 md:pt-12 border-t border-stone-200" data-reveal="blur">
+                <h2 class="text-2xl font-bold text-stone-900 mb-4">Metode Kami</h2>
+                <p class="text-stone-700 leading-relaxed text-justify">
+                    Benih Indonesia menggunakan metode Teaching at the Right Level (TaRL). TaRL adalah pendekatan pembelajaran yang dikembangkan oleh Pratham, sebuah organisasi pendidikan di India. TaRL berfokus pada kemampuan aktual anak, bukan semata-mata pada usia atau tingkat kelas formalnya. Melalui asesmen sederhana, anak dikelompokkan berdasarkan tingkat kemampuan literasi dan numerasi, seperti mengenal huruf, membaca kata, kalimat, hingga paragraf atau cerita. Dengan pembelajaran yang sesuai dengan kebutuhan dan kecepatan belajar masing-masing anak, TaRL membantu setiap anak membangun keterampilan dasar secara bertahap untuk mencapai kompetensi yang diharapkan.
+                </p>
+                <p class="mt-4"><a href="/resources/" class="font-medium text-brand-700 hover:underline">Pelajari metode kami</a></p>
+            </div>
+
             <div class="pt-10 md:pt-12 border-t border-stone-200">
                 <h2 class="text-xl font-bold text-stone-900 mb-6">Jelajahi Benih Indonesia</h2>
                 <div class="grid sm:grid-cols-2 gap-4 md:gap-6">
-                    <a href="/programmes/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
-                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Programmes</h3>
-                        <p class="text-stone-600">Pembelajaran berbasis tingkat kemampuan anak melalui pendekatan Teaching at the Right Level (TaRL).</p>
-                    </a>
-                    <a href="/impact/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
-                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Impact</h3>
-                        <p class="text-stone-600">Kerangka 3Cs (Clarity, Confidence, Consistency) dan penerima manfaat program kami.</p>
-                    </a>
-                    <a href="/stories/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
-                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Stories</h3>
-                        <p class="text-stone-600">Kisah pembelajaran yang berakar pada budaya, bahasa, dan kuliner Papua.</p>
-                    </a>
-                    <a href="/resources/" class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
-                        <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">Resources</h3>
-                        <p class="text-stone-600">Metodologi pengajaran Teaching at the Right Level (TaRL) yang kami terapkan.</p>
-                    </a>
+                    {explore.map((item, i) => (
+                        <a href={item.href} data-reveal="up" style={`--reveal-delay:${(i % 2) * 120}ms`} class="group block p-5 sm:p-6 bg-white border border-stone-200 rounded-lg hover:border-brand-700 transition-colors">
+                            <h3 class="text-lg font-bold text-stone-900 mb-2 group-hover:text-brand-700">{item.title}</h3>
+                            <p class="text-stone-600">{item.text}</p>
+                        </a>
+                    ))}
                 </div>
             </div>
 
-            <div class="p-6 md:p-8 bg-brand-50 border border-brand-100 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div data-reveal="up" class="p-6 md:p-8 bg-brand-50 border border-brand-100 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h2 class="text-xl font-bold text-stone-900 mb-2">Ingin ikut berkontribusi?</h2>
                     <p class="text-stone-700">Dukung literasi anak Papua melalui donasi, menjadi relawan, atau berkolaborasi sebagai mitra.</p>
                 </div>
-                <a href="/get-involved/" class="shrink-0 px-6 py-3 bg-brand-800 text-white font-medium rounded-md hover:bg-brand-700 transition-colors text-center">Get Involved</a>
+                <a href="/get-involved/" class="shrink-0 px-6 py-3 bg-brand-800 text-white font-medium rounded-md hover:bg-brand-700 transition-colors text-center">Bergabung Bersama Kami</a>
             </div>
         </div>
     </section>

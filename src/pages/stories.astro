@@ -1,25 +1,35 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import ScrollMap from '../components/ScrollMap.astro';
 ---
 <BaseLayout
     title="Cerita Papua: Budaya, Bahasa & Kuliner | Benih Indonesia"
-    description="Kisah pembelajaran Benih Indonesia yang berakar pada kearifan lokal Papua: keragaman bahasa daerah, kuliner tradisional seperti papeda, dan budaya masyarakat."
+    description="Kisah pembelajaran Benih Indonesia yang berakar pada kearifan lokal Papua: keragaman bahasa daerah, kuliner tradisional seperti papeda, dan budaya masyarakat. Lihat juga peta wilayah operasi kami."
     pageType="WebPage"
     pageName="Cerita Papua: Budaya, Bahasa, dan Kuliner"
-    breadcrumb="Stories"
+    breadcrumb="Cerita"
 >
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        <Breadcrumb label="Stories" />
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-16 pb-10 md:pb-12">
+        <Breadcrumb label="Cerita" />
 
-        <h1 class="text-3xl font-bold text-stone-900 mb-8">Stories</h1>
+        <h1 class="text-3xl font-bold text-stone-900 mb-8">Cerita</h1>
 
         <section class="space-y-6">
-            <h2 class="text-2xl font-bold text-stone-900">About Papua &amp; Culture, Language, and Food</h2>
+            <h2 class="text-2xl font-bold text-stone-900">Tentang Papua, Budaya, Bahasa, dan Kuliner</h2>
             <p class="text-stone-700 leading-relaxed">
                 Kisah-kisah pembelajaran di Benih Indonesia berakar kuat pada kearifan lokal Papua. Keanekaragaman bahasa daerah, kekayaan kuliner tradisional seperti papeda dan umbi-umbian, serta kehangatan budaya kemasyarakatan menjadi bagian integral dalam penyusunan konteks materi pembelajaran anak-anak.
             </p>
-            <p class="text-stone-700">Baca juga tentang <a href="/resources/" class="font-medium text-brand-700 hover:underline">metodologi pengajaran kami</a>.</p>
+            <p class="text-stone-700">Baca juga tentang <a href="/resources/" class="font-medium text-brand-700 hover:underline">metode kami</a>.</p>
         </section>
+
+        <div class="mt-12 md:mt-16">
+            <h2 class="text-2xl font-bold text-stone-900">Jalur Perluasan Kami</h2>
+            <p class="mt-3 text-stone-700 leading-relaxed max-w-3xl">
+                Scroll untuk melihat peta bergerak dari Indonesia menuju delapan wilayah di Papua. Klik peta untuk melihat Perjalanan Kami 2026–2030.
+            </p>
+        </div>
     </div>
+
+    <ScrollMap />
 </BaseLayout>

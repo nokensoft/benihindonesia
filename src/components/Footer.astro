@@ -11,10 +11,10 @@ const links = [...nav.filter((item) => item.href !== '/'), cta];
                     <p class="text-base font-bold text-brand-800 uppercase tracking-tight">{site.name}</p>
                     <p class="text-sm font-medium text-stone-700">{site.tagline}</p>
                 </div>
-                <p>Organisasi nirlaba untuk literasi dan numerasi dasar anak-anak di tanah Papua.</p>
+                <p>Organisasi nirlaba untuk literasi dan numerasi anak-anak di Indonesia.</p>
             </div>
-            <nav aria-label="Footer navigation" translate="no" class="notranslate">
-                <p class="font-semibold text-stone-900 mb-2">Explore</p>
+            <nav aria-label="Navigasi footer">
+                <p class="font-semibold text-stone-900 mb-2">Jelajahi</p>
                 <ul class="grid grid-cols-2 gap-x-4">
                     {links.map((item) => (
                         <li><a href={item.href} class="inline-block py-2 hover:text-stone-900">{item.label}</a></li>
@@ -22,11 +22,11 @@ const links = [...nav.filter((item) => item.href !== '/'), cta];
                 </ul>
             </nav>
             <address class="not-italic">
-                <p class="notranslate font-semibold text-stone-900 mb-2" translate="no">Contact</p>
+                <p class="font-semibold text-stone-900 mb-2">Kontak</p>
                 <p class="py-2">{fullAddress}</p>
                 <p><a href={`mailto:${site.email}`} translate="no" class="notranslate inline-block py-2 break-all hover:text-stone-900">{site.email}</a></p>
             </address>
         </div>
-        <p class="mt-8 pt-6 border-t border-stone-200 text-sm text-stone-600">&copy; {new Date().getFullYear()} Benih Indonesia. All rights reserved.</p>
+        <p class="mt-8 pt-6 border-t border-stone-200 text-sm text-stone-600">&copy; {new Date().getFullYear()} Benih Indonesia. Hak cipta dilindungi.</p>
     </div>
 </footer>

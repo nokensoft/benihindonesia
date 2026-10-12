@@ -1,0 +1,186 @@
+---
+// Banner beranda berupa slider (crossfade). Perilaku: src/scripts/hero-slider.js
+//
+// Latar tiap slide:
+//  - foto asli bila ada berkas di src/assets/hero/ (diurutkan menurut nama; foto ke-N dipakai slide ke-N)
+//  - bila belum ada foto, peta Papua (digambar dari data BIG, bukan gambar buatan AI)
+import { Picture } from 'astro:assets';
+import { site } from '../data/site';
+import { papuaPath, mapTargets } from '../data/map';
+
+const photoModules = import.meta.glob<ImageMetadata>('../assets/hero/*.{jpg,jpeg,png,webp,avif}', {
+    eager: true,
+    import: 'default',
+});
+const photos = Object.keys(photoModules)
+    .sort()
+    .map((key) => photoModules[key]);
+
+interface Slide {
+    eyebrow: string;
+    title: string;
+    text?: string;
+    /** Judul berupa nama merek/slogan berbahasa Inggris: jangan diterjemahkan otomatis */
+    brandTitle?: boolean;
+    actions: { href: string; label: string; primary?: boolean }[];
+    alt: string;
+    /** viewBox peta latar bila tidak ada foto */
+    view: string;
+}
+
+const slides: Slide[] = [
+    {
+        eyebrow: site.name,
+        title: site.tagline,
+        text: 'Organisasi nirlaba untuk literasi dan numerasi anak-anak di Indonesia.',
+        brandTitle: true,
+        actions: [
+            { href: '/programmes/', label: 'Program Kami', primary: true },
+            { href: '/about/', label: 'Pelajari Lebih Lanjut' },
+        ],
+        alt: 'Anak-anak Papua belajar bersama Benih Indonesia',
+        view: '2490 480 2200 1250',
+    },
+    {
+        eyebrow: 'Slogan Kami',
+        title: site.slogan,
+        text: 'Pembelajaran kontekstual yang disesuaikan dengan tingkat kemampuan setiap anak.',
+        brandTitle: true,
+        actions: [{ href: '/resources/', label: 'Metode Kami', primary: true }],
+        alt: 'Kegiatan belajar literasi dan numerasi anak-anak Papua di lapangan',
+        view: '3540 640 1150 760',
+    },
+    {
+        eyebrow: 'Cakupan Wilayah Operasi',
+        title: site.scope,
+        text: 'Tahap awal di Kabupaten Jayapura dan Kota Jayapura, kemudian enam wilayah lain di Papua.',
+        actions: [{ href: '/stories/#peta', label: 'Lihat Peta Wilayah', primary: true }],
+        alt: 'Peta wilayah operasi Benih Indonesia di Papua',
+        view: '2890 400 1800 1400',
+    },
+];
+
+const fills: Record<string, string> = { start: '#3b82f6', city: '#d2b48c', next: '#facc15' };
+const total = slides.length;
+---
+<section
+    aria-roledescription="carousel"
+    aria-label="Sorotan Benih Indonesia"
+    data-hero-slider
+    class="relative isolate overflow-hidden bg-brand-900 text-white"
+>
+    <!-- Peta Papua dipakai bersama oleh semua slide agar datanya hanya dimuat sekali -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <path id="hero-papua" d={papuaPath}></path>
+            {mapTargets.map((t) => <path id={`hero-${t.id}`} d={t.d}></path>)}
+        </defs>
+    </svg>
+
+    <div class="grid" data-slide-live aria-live="off" aria-atomic="false">
+        {slides.map((slide, i) => (
+            <div
+                data-slide
+                data-active={i === 0 ? 'true' : 'false'}
+                aria-hidden={i === 0 ? 'false' : 'true'}
+                inert={i === 0 ? undefined : true}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${i + 1} dari ${total}`}
+                class="hero-slide relative min-h-[34rem] sm:min-h-[36rem] lg:min-h-[40rem] flex items-center"
+            >
+                <!-- Latar -->
+                <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden={photos[i] ? undefined : 'true'}>
+                    {photos[i] ? (
+                        <>
+                            <Picture
+                                src={photos[i]}
+                                formats={['avif', 'webp']}
+                                fallbackFormat="jpg"
+                                widths={[640, 1024, 1600, 2000]}
+                                sizes="100vw"
+                                alt={slide.alt}
+                                loading={i === 0 ? 'eager' : 'lazy'}
+                                fetchpriority={i === 0 ? 'high' : 'auto'}
+                                pictureAttributes={{ class: 'block h-full w-full' }}
+                                class="hero-slide__bg h-full w-full object-cover"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-r from-brand-900/90 via-brand-900/55 to-brand-900/10"></div>
+                        </>
+                    ) : (
+                        <>
+                            <div class="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700"></div>
+                            <svg
+                                viewBox={slide.view}
+                                preserveAspectRatio="xMaxYMid slice"
+                                class="hero-slide__bg absolute inset-0 h-full w-full opacity-60 sm:opacity-100"
+                                focusable="false"
+                            >
+                                <use href="#hero-papua" fill="rgb(255 255 255 / 0.10)" stroke="rgb(255 255 255 / 0.45)" stroke-width="2" stroke-linejoin="round"></use>
+                                {mapTargets.map((t) => (
+                                    <use href={`#hero-${t.id}`} fill={fills[t.role]} fill-opacity="0.9" stroke="#fff" stroke-width="2" stroke-linejoin="round"></use>
+                                ))}
+                            </svg>
+                            <div class="absolute inset-0 bg-gradient-to-r from-brand-900/85 via-brand-900/30 to-transparent sm:from-brand-900/70"></div>
+                        </>
+                    )}
+                </div>
+
+                <!-- Isi -->
+                <div class="hero-slide__content w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pb-24">
+                    <div class="hero-slide__stack max-w-2xl">
+                        <p class="text-sm sm:text-base font-semibold uppercase tracking-widest text-brand-100" translate={slide.eyebrow === site.name ? 'no' : undefined}>{slide.eyebrow}</p>
+                        {i === 0 ? (
+                            <h1 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance" translate={slide.brandTitle ? 'no' : undefined}>{slide.title}</h1>
+                        ) : (
+                            <h2 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance" translate={slide.brandTitle ? 'no' : undefined}>{slide.title}</h2>
+                        )}
+                        {slide.text && <p class="mt-5 text-lg sm:text-xl text-stone-100 max-w-xl">{slide.text}</p>}
+                        <div class="mt-8 flex flex-wrap gap-3">
+                            {slide.actions.map((action) => (
+                                <a
+                                    href={action.href}
+                                    class:list={[
+                                        'inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-md font-semibold transition-colors',
+                                        action.primary
+                                            ? 'bg-white text-brand-900 hover:bg-brand-50'
+                                            : 'border border-white/70 text-white hover:bg-white/10',
+                                    ]}
+                                >{action.label}</a>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <!-- Kontrol (disembunyikan tanpa JavaScript) -->
+    <div data-hero-controls class="absolute inset-x-0 bottom-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <button type="button" data-slide-toggle aria-pressed="false" aria-label="Jeda slide otomatis" class="group inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white" translate="no">
+                    <svg class="w-5 h-5 group-aria-[pressed=true]:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+                    <svg class="w-5 h-5 hidden group-aria-[pressed=true]:block" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+                </button>
+                <ol class="flex items-center gap-1" aria-label="Pilih slide">
+                    {slides.map((_, i) => (
+                        <li>
+                            <button type="button" data-slide-dot aria-label={`Slide ${i + 1}`} aria-current={i === 0 ? 'true' : undefined} class="group inline-flex items-center justify-center w-9 h-11">
+                                <span class="block h-2.5 w-2.5 rounded-full bg-white/50 transition-all group-hover:bg-white group-aria-[current=true]:w-7 group-aria-[current=true]:bg-white"></span>
+                            </button>
+                        </li>
+                    ))}
+                </ol>
+            </div>
+            <div class="flex items-center gap-2" translate="no">
+                <button type="button" data-slide-prev aria-label="Slide sebelumnya" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                </button>
+                <button type="button" data-slide-next aria-label="Slide berikutnya" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
