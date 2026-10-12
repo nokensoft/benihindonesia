@@ -26,7 +26,8 @@ const timeline = [
 // Mitra. Logo diambil otomatis dari src/assets/partners/<id>.(png|jpg|jpeg|webp|svg) bila berkasnya ada.
 const partners = [
     { id: 'd-prize', name: 'D-Prize' },
-    { id: 'international-university-of-papua', name: 'International University of Papua' },
+    // Disembunyikan sementara: kemitraan IUP belum final (Revisi 01). Hapus komentar bila sudah fix.
+    // { id: 'international-university-of-papua', name: 'International University of Papua' },
 ];
 
 const logoModules = import.meta.glob<ImageMetadata>('../assets/partners/*.{png,jpg,jpeg,webp,svg}', {

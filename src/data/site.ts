@@ -43,5 +43,21 @@ export const nav = [
 
 export const cta = { href: '/get-involved/', label: 'Bergabung Bersama Kami' };
 
+// Media sosial resmi organisasi (footer). Isi `href` dengan URL akun; yang masih kosong
+// tampil sebagai ikon nonaktif bertanda "segera hadir" (tidak menjadi tautan).
+export const social: { id: 'linkedin' | 'instagram' | 'facebook' | 'whatsapp' | 'youtube'; label: string; href: string }[] = [
+    { id: 'linkedin', label: 'LinkedIn', href: '' },
+    { id: 'instagram', label: 'Instagram', href: '' },
+    { id: 'facebook', label: 'Facebook', href: '' },
+    { id: 'whatsapp', label: 'Saluran WhatsApp', href: '' },
+    { id: 'youtube', label: 'YouTube', href: '' },
+];
+
+// Tautan legal di bagian bawah footer
+export const legal = [
+    { href: '/sitemap/', label: 'Peta Situs' },
+    { href: '/disclaimer/', label: 'Disclaimer' },
+];
+
 export const orgId = `${site.url}/#organization`;
 export const websiteId = `${site.url}/#website`;

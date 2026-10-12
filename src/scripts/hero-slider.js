@@ -1,6 +1,8 @@
 // Slider banner beranda: crossfade, autoplay, tombol sebelumnya/berikutnya,
 // titik navigasi, tombol jeda, geser (swipe), dan keyboard.
 // Autoplay mati bila pengguna memilih "reduce motion".
+// Video latar ([data-hero-video]) hanya diputar saat slidenya aktif dan slider tidak dijeda;
+// tidak diputar pada "reduce motion" atau mode hemat data (yang tampil poster).
 
 export function initHeroSlider() {
     var root = document.querySelector('[data-hero-slider]');
@@ -22,6 +24,22 @@ export function initHeroSlider() {
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) userPaused = true;
 
+    var videos = slides.map(function (slide) { return slide.querySelector('[data-hero-video]'); });
+    var saveData = navigator.connection && navigator.connection.saveData;
+    var allowVideo = !reduceMotion && !saveData;
+
+    function syncVideos() {
+        videos.forEach(function (video, n) {
+            if (!video) return;
+            if (allowVideo && n === index && !userPaused && !document.hidden) {
+                var playing = video.play();
+                if (playing && playing.catch) playing.catch(function () {}); // autoplay diblokir: poster tetap tampil
+            } else {
+                video.pause();
+            }
+        });
+    }
+
     function show(i) {
         index = (i + slides.length) % slides.length;
         slides.forEach(function (slide, n) {
@@ -35,6 +53,7 @@ export function initHeroSlider() {
             if (n === index) dot.setAttribute('aria-current', 'true');
             else dot.removeAttribute('aria-current');
         });
+        syncVideos();
     }
 
     function stop() {
@@ -73,6 +92,7 @@ export function initHeroSlider() {
         toggle.addEventListener('click', function () {
             userPaused = !userPaused;
             syncToggle();
+            syncVideos();
             start();
         });
     }
@@ -83,7 +103,10 @@ export function initHeroSlider() {
     root.addEventListener('focusout', function (e) {
         if (!root.contains(e.relatedTarget)) { hoverPaused = false; start(); }
     });
-    document.addEventListener('visibilitychange', start);
+    document.addEventListener('visibilitychange', function () {
+        syncVideos();
+        start();
+    });
 
     // Keyboard: panah kiri/kanan saat fokus berada di dalam banner
     root.addEventListener('keydown', function (e) {

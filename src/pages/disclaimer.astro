@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { site } from '../data/site';
+
+const updated = '12 Oktober 2026';
+---
+<BaseLayout
+    title="Disclaimer | Benih Indonesia"
+    description="Ketentuan umum penggunaan konten situs Benih Indonesia, termasuk tautan eksternal, terjemahan otomatis, dan pemanfaatan kecerdasan buatan (AI)."
+    pageName="Disclaimer Benih Indonesia"
+    breadcrumb="Disclaimer"
+>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <Breadcrumb label="Disclaimer" />
+
+        <h1 class="text-3xl font-bold text-stone-900 mb-2">Disclaimer</h1>
+        <p class="text-sm text-stone-500 mb-10">Terakhir diperbarui: {updated}</p>
+
+        <div class="space-y-10 text-stone-700 leading-relaxed">
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Informasi Umum</h2>
+                <p>Seluruh konten di situs ini disediakan oleh <span translate="no">{site.name}</span> untuk tujuan informasi mengenai organisasi, program, dan kegiatan kami. Kami berupaya menjaga agar informasi tetap akurat dan terkini, namun tidak memberikan jaminan atas kelengkapan atau ketepatan setiap informasi. Konten dapat berubah sewaktu-waktu tanpa pemberitahuan sebelumnya.</p>
+                <p>Informasi di situs ini tidak dimaksudkan sebagai nasihat profesional. Keputusan yang diambil berdasarkan informasi di situs ini sepenuhnya menjadi tanggung jawab pengunjung.</p>
+            </section>
+
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Hak Cipta dan Penggunaan Konten</h2>
+                <p>Teks, foto, video, ilustrasi, dan logo di situs ini merupakan milik <span translate="no">{site.name}</span> atau pihak yang memberikan izin. Konten boleh dikutip untuk keperluan nonkomersial, seperti pendidikan dan pemberitaan, dengan mencantumkan sumber. Penggunaan lain memerlukan izin tertulis dari kami.</p>
+                <p>Logo mitra dan ikon Tujuan Pembangunan Berkelanjutan (SDG) adalah milik masing-masing pemiliknya dan digunakan sesuai ketentuan yang berlaku.</p>
+            </section>
+
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Foto Anak dan Privasi</h2>
+                <p>Kami menghormati privasi anak-anak dan keluarga yang kami dampingi. Foto dan video kegiatan ditampilkan dengan izin pihak terkait. Jika Anda keberatan atas tampilan suatu foto atau video, silakan hubungi kami dan kami akan meninjaunya.</p>
+            </section>
+
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Pemanfaatan Kecerdasan Buatan (AI)</h2>
+                <p>Dalam menyiapkan situs ini, kami dapat memanfaatkan alat berbasis kecerdasan buatan (AI) untuk membantu pekerjaan tertentu, seperti:</p>
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>membuat sebagian ilustrasi pendukung;</li>
+                    <li>membantu penyusunan, penyuntingan, atau penerjemahan teks;</li>
+                    <li>membantu pengembangan dan pengujian teknis situs.</li>
+                </ul>
+                <p>Setiap konten yang dibantu AI ditinjau oleh tim kami sebelum diterbitkan. Ilustrasi yang dibuat dengan bantuan AI bersifat ilustratif dan tidak menggambarkan orang, peristiwa, atau lokasi nyata. Foto dan video dokumentasi kegiatan tidak dibuat dengan AI.</p>
+                <p>Jika Anda menemukan konten yang keliru atau kurang tepat, mohon beri tahu kami melalui kontak di bawah.</p>
+            </section>
+
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Terjemahan Otomatis</h2>
+                <p>Bahasa utama situs ini adalah bahasa Indonesia. Versi bahasa Inggris dihasilkan secara otomatis oleh layanan terjemahan pihak ketiga (Google Translate) dan dapat mengandung ketidaktepatan. Jika terdapat perbedaan makna, versi bahasa Indonesia yang berlaku.</p>
+            </section>
+
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Tautan ke Situs Lain</h2>
+                <p>Situs ini dapat memuat tautan ke situs pihak ketiga, termasuk media sosial dan mitra kami. Kami tidak bertanggung jawab atas isi, kebijakan privasi, maupun ketersediaan situs tersebut.</p>
+            </section>
+
+            <section class="space-y-3">
+                <h2 class="text-xl font-bold text-stone-900">Kontak</h2>
+                <p>Pertanyaan mengenai disclaimer ini dapat dikirim ke <a href={`mailto:${site.email}`} translate="no" class="font-medium text-brand-700 hover:underline">{site.email}</a> atau melalui halaman <a href="/contact/" class="font-medium text-brand-700 hover:underline">Kontak</a>.</p>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

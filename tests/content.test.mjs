@@ -13,6 +13,8 @@ const pages = {
     resources: 'dist/resources/index.html',
     contact: 'dist/contact/index.html',
     involved: 'dist/get-involved/index.html',
+    sitemap: 'dist/sitemap/index.html',
+    disclaimer: 'dist/disclaimer/index.html',
     notFound: 'dist/404.html',
 };
 
@@ -52,6 +54,29 @@ test('Beranda: judul "Metode Kami" dan paragraf TaRL', () => {
     assert.match(t, /untuk mencapai kompetensi yang diharapkan\./);
 });
 
+test('Beranda: slide 1 memakai video latar dengan poster, tanpa autoplay HTML', () => {
+    const h = html('home');
+    const video = h.match(/<video[^>]*data-hero-video[^>]*>/)?.[0];
+    assert.ok(video, 'video latar slide 1 ada');
+    assert.match(video, /src="\/video\/hero-slide-1\.mp4"/);
+    assert.match(video, /poster="\/video\/hero-slide-1-poster\.jpg"/);
+    assert.match(video, /muted/);
+    assert.match(video, /preload="none"/);
+    assert.doesNotMatch(video, /autoplay/, 'diputar oleh JS agar "reduce motion" dan hemat data dihormati');
+    assert.ok(existsSync('dist/video/hero-slide-1.mp4') && existsSync('dist/video/hero-slide-1-poster.jpg'));
+});
+
+test('Ilustrasi anak belajar: di atas judul "Metode Kami" (beranda) dan di bawah judul "Bahan Ajar"', () => {
+    const img = /<img[^>]*src="[^"]*anak-belajar[^"]*"[^>]*alt="Ilustrasi guru dan anak-anak belajar[^"]*"/;
+    const home = html('home');
+    const homeImg = home.search(img);
+    assert.ok(homeImg > -1, 'ilustrasi ada di beranda');
+    assert.ok(homeImg < home.indexOf('>Metode Kami</h2>'), 'ilustrasi berada di atas judul Metode Kami');
+    const res = html('resources');
+    const resImg = res.search(img);
+    assert.ok(resImg > res.indexOf('>Bahan Ajar</h1>'), 'ilustrasi berada di bawah judul Bahan Ajar');
+});
+
 test('Beranda: banner berupa slider (3 slide), bukan gambar buatan AI', () => {
     const h = html('home');
     assert.equal((h.match(/data-slide(?=[\s>])/g) ?? []).length, 3, 'harus ada 3 slide');
@@ -89,15 +114,17 @@ test('Tentang: teks organisasi, visi, misi, linimasa, dan mitra sesuai revisi', 
     assert.match(t, /Perjalanan Kami: 2026–2030/);
     assert.match(t, /Mitra Kami/);
     assert.match(t, /D-Prize/);
-    assert.match(t, /International University of Papua/);
+    // assert.match(t, /International University of Papua/); // IUP disembunyikan sementara
 });
 
-test('Tentang: logo kedua mitra tampil', () => {
+test('Tentang: logo mitra D-Prize tampil, IUP disembunyikan sementara', () => {
     const h = html('about');
     assert.match(h, /alt="Logo D-Prize"/);
-    assert.match(h, /alt="Logo International University of Papua"/);
     assert.match(h, /d-prize\.[\w-]+\.(png|webp|avif)/, 'berkas logo D-Prize dipakai');
-    assert.match(h, /international-university-of-papua\.[\w-]+\.(png|webp|avif)/, 'berkas logo IUP dipakai');
+    // IUP disembunyikan sampai kemitraannya final; kembalikan dua baris ini bila sudah tampil lagi
+    // assert.match(h, /alt="Logo International University of Papua"/);
+    // assert.match(h, /international-university-of-papua\.[\w-]+\.(png|webp|avif)/, 'berkas logo IUP dipakai');
+    assert.doesNotMatch(h, /International University of Papua/);
 });
 
 test('Tentang: linimasa memakai efek blur reveal untuk tahun dan target capaian', () => {
@@ -208,9 +235,23 @@ test('semua tautan internal valid (berkas dan #anchor ada)', () => {
     assert.deepEqual(broken, []);
 });
 
+test('Footer: lima media sosial serta tautan Peta Situs | Disclaimer di semua halaman', () => {
+    for (const name of Object.keys(pages)) {
+        const footer = html(name).match(/<footer[\s\S]*<\/footer>/)?.[0] ?? '';
+        for (const label of ['LinkedIn', 'Instagram', 'Facebook', 'Saluran WhatsApp', 'YouTube']) {
+            assert.ok(footer.includes(label), `${name}: footer memuat ${label}`);
+        }
+        assert.match(footer, /href="\/sitemap\/"[^>]*>Peta Situs</, `${name}: tautan Peta Situs`);
+        assert.match(footer, /href="\/disclaimer\/"[^>]*>Disclaimer</, `${name}: tautan Disclaimer`);
+        assert.doesNotMatch(footer, /href="(#|)"/, `${name}: tidak ada tautan media sosial kosong`);
+    }
+    assert.match(text('disclaimer'), /Pemanfaatan Kecerdasan Buatan \(AI\)/);
+    assert.match(text('sitemap'), /Perjalanan Kami 2026–2030/);
+});
+
 test('sitemap memuat semua halaman', () => {
     const sm = readFileSync('dist/sitemap-0.xml', 'utf8');
-    for (const p of ['/', '/about/', '/programmes/', '/impact/', '/stories/', '/resources/', '/contact/', '/get-involved/']) {
+    for (const p of ['/', '/about/', '/programmes/', '/impact/', '/stories/', '/resources/', '/contact/', '/get-involved/', '/sitemap/', '/disclaimer/']) {
         assert.ok(sm.includes(`https://benihindonesia.org${p}</loc>`), `sitemap memuat ${p}`);
     }
 });

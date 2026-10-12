@@ -12,6 +12,16 @@ Situs profil organisasi nirlaba **Benih Indonesia** (literasi & numerasi anak, m
 - Tidak ada framework UI (React/Vue), tidak ada backend, tidak ada CMS. Semua konten ditulis langsung di file `.astro`/`.ts`.
 - Bahasa konten utama: **Indonesia**. Versi Inggris dihasilkan Google Translate di sisi klien.
 
+## Pihak terkait
+
+| Peran | Nama | Kontak |
+|---|---|---|
+| Klien | Benih Indonesia — Frederick M. & Silvia Wambukomo (Co-founder) | info@benihindonesia.org |
+| IT Consultant | **Nokensoft** | https://nokensoft.com |
+| PIC / Project Manager | **Janzen Faidiban** (Nokensoft) | https://janzenfaidiban.github.io |
+
+Laporan dan dokumen untuk klien ditulis atas nama Nokensoft sebagai IT Consultant, dengan Janzen Faidiban sebagai PIC.
+
 ## Perintah
 
 ```sh
@@ -32,7 +42,8 @@ Pengujian browser memakai `playwright-core` dengan **Chrome/Edge yang sudah terp
 ```
 src/
   pages/            Satu file = satu URL: index, about, programmes, impact, stories,
-                    resources, contact, get-involved, 404
+                    resources, contact, get-involved, sitemap (peta situs HTML),
+                    disclaimer, 404
   layouts/BaseLayout.astro   <head> (SEO, OG, JSON-LD @graph), Header/Footer, dan
                              SATU-SATUNYA <script> bundel yang memanggil semua init*
   components/
@@ -40,7 +51,8 @@ src/
     HeroSlider.astro   Banner beranda (slider crossfade, 3 slide)
     ScrollMap.astro    Peta Indonesia → 8 wilayah Papua, digerakkan scroll (halaman Cerita)
   data/
-    site.ts          Sumber tunggal: nama, tagline, slogan, kontak, WhatsApp, alamat, geo, nav, cta
+    site.ts          Sumber tunggal: nama, tagline, slogan, kontak, WhatsApp, alamat, geo, nav, cta,
+                     social (URL media sosial; kosong = ikon "segera hadir"), legal (tautan footer bawah)
     map.ts           DIHASILKAN OTOMATIS oleh scripts/build-map.mjs — jangan diedit manual
   scripts/
     main.js          Menu seluler, section nav, ID/EN (cookie googtrans), formulir WhatsApp
@@ -48,8 +60,9 @@ src/
     hero-slider.js   initHeroSlider
     scroll-map.js    initScrollMap
   styles/global.css  Tema brand + semua CSS efek (reveal, lift-card, flip-card, hero, scroll-map)
-  assets/            Gambar sumber (dioptimasi astro:assets): logo, team/, sdg/, hero/, partners/
-public/              Disalin apa adanya: img/brand (favicon, og-image), robots.txt, site.webmanifest
+  assets/            Gambar sumber (dioptimasi astro:assets): logo, team/, sdg/, hero/, partners/, illustrations/
+public/              Disalin apa adanya: img/brand (favicon, og-image), video/ (video latar banner
+                     + poster; kompres dulu, mis. 720p/24fps/H.264 CRF ~32 tanpa audio), robots.txt, site.webmanifest
 scripts/build-map.mjs  Generator map.ts (sumber: mashadinoor/Indonesia-Geojson-2026, data BIG, MIT)
 tests/
   content.test.mjs   Cek HTML di dist/ terhadap butir revisi klien
@@ -58,7 +71,7 @@ tests/
   screenshots.mjs    Skrip tangkapan layar (bukan test)
 deploy/              deploy.sh (VPS: git pull → npm ci → build → rsync dist/), nginx.conf
 .github/workflows/deploy.yml  Deploy opsional via SSH (butuh secrets SSH_HOST/USER/KEY)
-_revisi/             PDF revisi dari klien (acuan isi; jangan diubah)
+_revisi/             PDF revisi dari klien (acuan isi; jangan diubah) + laporan hasil revisi (.md)
 ```
 
 ## Konvensi kode
@@ -84,13 +97,32 @@ _revisi/             PDF revisi dari klien (acuan isi; jangan diubah)
 8. Tidak boleh memakai gambar buatan AI untuk banner (ada test); bila `src/assets/hero/` kosong, latar slide memakai peta Papua dari data BIG.
 9. Jangan commit `dist/`, `.astro/`, `node_modules/`, `test-results/`.
 
+## Laporan hasil revisi (wajib selalu diperbarui)
+
+Setiap dokumen revisi klien di `_revisi/` punya laporan pasangan dengan nomor versi yang sama:
+
+```
+_revisi/<YYYYMMDD> Revisi <NN> - Website Benih Indonesia.pdf                ← dari klien (jangan diubah)
+_revisi/<YYYYMMDD> Laporan Hasil Revisi <NN> - Website Benih Indonesia.md   ← dibuat/diperbarui agen
+```
+
+Contoh: `20261012 Revisi 01 - …pdf` ↔ `20261012 Laporan Hasil Revisi 01 - …md`.
+
+Aturan:
+
+1. **Setiap perubahan yang menyentuh butir revisi** (konten, efek, mitra, gambar, perbaikan tes) harus diikuti pembaruan laporan versi revisi yang sedang berjalan, dalam sesi yang sama. Ubah status butir (✔ selesai / ⏳ menunggu bahan atau konfirmasi), tabel ringkasan, dan daftar "Yang Dibutuhkan dari Tim".
+2. **Bagian hasil uji** harus memuat angka nyata dari `npm run test:all` terakhir (jumlah lolos/gagal, dipisah antara tes konten dan tes browser) beserta tanggalnya, serta daftar temuan yang belum beres. Jangan menulis "semua lolos" tanpa menjalankan tes.
+3. **Revisi baru dari klien** (mis. `Revisi 02`): buat laporan baru dengan nomor dan tanggal yang sesuai. Laporan versi sebelumnya dibiarkan sebagai arsip. Butir yang belum selesai dari versi lama dibawa ke laporan baru.
+4. Pembaca laporan adalah **klien** (non-teknis). Gunakan bahasa Indonesia yang jelas dan minim istilah teknis. Nama file/folder hanya disebut bila klien perlu menaruh bahan. Header laporan mencantumkan Nokensoft (IT Consultant) dan Janzen Faidiban (PIC/Project Manager).
+5. Hal yang disembunyikan atau ditunda sementara (mis. mitra yang belum final) harus dicatat di laporan beserta alasannya.
+
 ## Verifikasi sebelum selesai
 
 ```sh
 npm run test:all
 ```
 
-Semua test harus lolos (butuh Chrome atau Edge terpasang untuk `browser.test.mjs`). Untuk perubahan visual, jalankan juga `node tests/screenshots.mjs` dan tinjau `test-results/screenshots/`.
+Semua test harus lolos (butuh Chrome atau Edge terpasang untuk `browser.test.mjs`). Setelah itu perbarui bagian hasil uji di laporan hasil revisi yang sedang berjalan (lihat bagian di atas). Untuk perubahan visual, jalankan juga `node tests/screenshots.mjs` dan tinjau `test-results/screenshots/`.
 
 ## Deploy
 

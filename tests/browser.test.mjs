@@ -120,6 +120,38 @@ test('Beranda: keyboard panah kiri/kanan mengganti slide', async () => {
     }
 });
 
+test('Beranda: video latar slide 1 diputar saat aktif, berhenti saat pindah slide atau dijeda', async () => {
+    const { page, problems, close } = await open('/');
+    const paused = () => page.evaluate(() => document.querySelector('[data-hero-video]').paused);
+    try {
+        await page.waitForFunction(() => !document.querySelector('[data-hero-video]').paused, null, { timeout: 10000 });
+        await page.click('[data-slide-next]');
+        assert.equal(await paused(), true, 'berhenti saat slide 1 tidak aktif');
+        await page.click('[data-slide-prev]');
+        await page.waitForFunction(() => !document.querySelector('[data-hero-video]').paused, null, { timeout: 5000 });
+        await page.click('[data-slide-toggle]');
+        assert.equal(await paused(), true, 'tombol jeda ikut menjeda video');
+        assert.deepEqual(problems, []);
+    } finally {
+        await close();
+    }
+});
+
+test('Beranda: "reduce motion" tidak memutar video latar (poster tampil)', async () => {
+    const { page, close } = await open('/', { reducedMotion: 'reduce' });
+    try {
+        await settle(page);
+        const state = await page.evaluate(() => {
+            const v = document.querySelector('[data-hero-video]');
+            return { paused: v.paused, poster: v.getAttribute('poster') };
+        });
+        assert.equal(state.paused, true);
+        assert.match(state.poster, /hero-slide-1-poster\.jpg$/);
+    } finally {
+        await close();
+    }
+});
+
 test('Beranda: "reduce motion" mematikan autoplay', async () => {
     const { page, close } = await open('/', { reducedMotion: 'reduce', clock: true });
     try {
@@ -592,7 +624,7 @@ test('Bergabung: formulir menyusun pesan WhatsApp berbahasa Indonesia', async ()
 // Responsif
 // ---------------------------------------------------------------------------------------------
 test('Responsif: tidak ada scroll horizontal dan header tidak meluap di semua halaman', async () => {
-    const paths = ['/', '/about/', '/programmes/', '/impact/', '/stories/', '/resources/', '/contact/', '/get-involved/'];
+    const paths = ['/', '/about/', '/programmes/', '/impact/', '/stories/', '/resources/', '/contact/', '/get-involved/', '/sitemap/', '/disclaimer/'];
     for (const width of [320, 390, 768, 1024, 1280, 1440]) {
         const context = await browser.newContext({ viewport: { width, height: 900 } });
         const page = await context.newPage();
@@ -648,7 +680,7 @@ test('Responsif: teks banner terbaca (tidak terpotong) di layar kecil', async ()
 // Aksesibilitas (axe-core)
 // ---------------------------------------------------------------------------------------------
 test('Aksesibilitas: tidak ada pelanggaran axe (WCAG A/AA) di semua halaman', async () => {
-    const paths = ['/', '/about/', '/programmes/', '/impact/', '/stories/', '/resources/', '/contact/', '/get-involved/'];
+    const paths = ['/', '/about/', '/programmes/', '/impact/', '/stories/', '/resources/', '/contact/', '/get-involved/', '/sitemap/', '/disclaimer/'];
     const failures = [];
     for (const path of paths) {
         const { page, close } = await open(path, { reducedMotion: 'reduce' });

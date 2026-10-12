@@ -2,6 +2,7 @@
 // Banner beranda berupa slider (crossfade). Perilaku: src/scripts/hero-slider.js
 //
 // Latar tiap slide:
+//  - video bila slide punya `video` (berkas di public/video/; diputar oleh hero-slider.js, tanpa JS tampil poster)
 //  - foto asli bila ada berkas di src/assets/hero/ (diurutkan menurut nama; foto ke-N dipakai slide ke-N)
 //  - bila belum ada foto, peta Papua (digambar dari data BIG, bukan gambar buatan AI)
 import { Picture } from 'astro:assets';
@@ -26,6 +27,8 @@ interface Slide {
     alt: string;
     /** viewBox peta latar bila tidak ada foto */
     view: string;
+    /** Video latar (tanpa suara) beserta poster; diutamakan di atas foto dan peta */
+    video?: { src: string; poster: string };
 }
 
 const slides: Slide[] = [
@@ -40,6 +43,7 @@ const slides: Slide[] = [
         ],
         alt: 'Anak-anak Papua belajar bersama Benih Indonesia',
         view: '2490 480 2200 1250',
+        video: { src: '/video/hero-slide-1.mp4', poster: '/video/hero-slide-1-poster.jpg' },
     },
     {
         eyebrow: 'Slogan Kami',
@@ -90,8 +94,24 @@ const total = slides.length;
                 class="hero-slide relative min-h-[34rem] sm:min-h-[36rem] lg:min-h-[40rem] flex items-center"
             >
                 <!-- Latar -->
-                <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden={photos[i] ? undefined : 'true'}>
-                    {photos[i] ? (
+                <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden={photos[i] && !slide.video ? undefined : 'true'}>
+                    {slide.video ? (
+                        <>
+                            <video
+                                data-hero-video
+                                src={slide.video.src}
+                                poster={slide.video.poster}
+                                muted
+                                loop
+                                playsinline
+                                preload="none"
+                                disablepictureinpicture
+                                tabindex="-1"
+                                class="absolute inset-0 h-full w-full object-cover"
+                            ></video>
+                            <div class="absolute inset-0 bg-gradient-to-r from-brand-900/90 via-brand-900/60 to-brand-900/20 max-sm:via-brand-900/70 max-sm:to-brand-900/50"></div>
+                        </>
+                    ) : photos[i] ? (
                         <>
                             <Picture
                                 src={photos[i]}
